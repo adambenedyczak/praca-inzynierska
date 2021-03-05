@@ -11,6 +11,8 @@
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
   border-style: none;
+  position: fixed;
+  z-index:1;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -20,6 +22,14 @@
 
 #sidebar-wrapper .list-group {
   width: 15rem;
+}
+.list-group a{
+  font-weight: 600;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.list-group a:hover{
+  background-color: rgb(255, 213, 158);
 }
 
 #page-content-wrapper {
@@ -36,9 +46,16 @@
   font-weight: 400;
 }
 
+div.container-fluid{
+  padding: 1rem 1rem 1rem 1rem;
+}
+
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 
   #page-content-wrapper {
@@ -48,5 +65,9 @@
 
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
+  }
+
+  div.container-fluid{
+    padding: 1rem 1rem 1rem 16rem;
   }
 }

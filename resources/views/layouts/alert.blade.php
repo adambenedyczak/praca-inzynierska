@@ -1,12 +1,6 @@
 <div class="row">
     <div class="col-xl-offset-3 col-xl-12 ">
     {{-- Komunikaty błędów --}}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            Achtung, scheiBe!
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}

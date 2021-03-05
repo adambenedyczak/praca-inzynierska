@@ -19,27 +19,30 @@ class ObjectsSeeder extends Seeder
 
         DB::table('objects')->insert([
             'name' => 'Ford Fusion',
-            'plate' => 'PK0570K',
             'object_type_id' => '1',
-            'user_id' => '1'
+            'user_id' => '1',
+            'work_time_unit_id' => '1'
         ]);
 
         DB::table('objects')->insert([
             'name' => 'Fogo FDG 250',
             'object_type_id' => '3',
-            'user_id' => '1'
+            'user_id' => '1',
+            'work_time_unit_id' => '2'
         ]);
 
         DB::table('objects')->insert([
             'name' => 'Fogo FDG 80',
             'object_type_id' => '3',
-            'user_id' => '1'
+            'user_id' => '1',
+            'work_time_unit_id' => '2'
         ]);
 
         DB::table('objects')->insert([
             'name' => 'Rumpumpa',
             'object_type_id' => '2',
-            'user_id' => '1'
+            'user_id' => '1',
+            'work_time_unit_id' => '0'
         ]);
     }
 }

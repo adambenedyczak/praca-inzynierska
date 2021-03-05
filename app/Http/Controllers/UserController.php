@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -16,15 +18,7 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request){
-
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'min:5','max:100'],
-            'password-new' => ['string', 'min:5'],
-            'password-confirm' => ['required_with:password-new', 
-                                    'same:password-new','string', 'min:5'],
-              'password-old' => ['required', 'string', 'min:5'],
-        ]);
+    public function update(UpdateUserRequest $request){
 
         $user = User::findOrFail(Auth::id());
 
@@ -32,11 +26,13 @@ class UserController extends Controller
             try {
                 $user = User::findOrFail(Auth::id());
                 $user->name = $request->input('name');
-                if($request->input('password-new') != null){
+
+                if($request->input('password-new') != null && $request->input('password-new') == $request->input('password-confirm')){
                     $user->password = 
                         Hash::make($request->input('password-new'));
                 }
                 $user->save();
+
                 return redirect()->route('profile.show')
                     ->with('success', __('Twoje dane zostały zmienione'));
             } catch(\Illuminate\Database\QueryException $e) {

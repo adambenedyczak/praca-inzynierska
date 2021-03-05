@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-lg-7">
             <div class="card">
                 <div class="card-header">{{ __('auth.auth_registration') }}</div>
 
@@ -50,6 +50,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small class="form-text text-muted">Hasło powinno składać się z co najmniej 8 znaków, dużej litery i znaku specjalnego.</small>
                             </div>
                         </div>
 
@@ -69,6 +70,16 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-7 my-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="h5">{{ __('auth.auth_account') }}</div>
+                    <a href="{{ route('login') }}" class="btn btn-success btn-md">{{ __('auth.auth_login_now') }}</a>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,19 +11,19 @@ class EmailAdress extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'emails_adress';
+    protected $table = 'email_adress';
 
     protected $fillable = [
         'email',
-        'enable_send',
+        'enable',
         'user_id',
+        'parts_notifications',
+        'overviews_notifications',
+        'insurances_notifications'  
     ];
 
-    public function notification_rule(){
-        $this->hasOne('\App\Models\NotificationRule');
+    public function user(){
+        return $this->belongsTo('\App\Models\User');
     }
 
-    public function user(){
-        $this->hasOne('\App\Models\User');
-    }
 }

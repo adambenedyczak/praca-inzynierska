@@ -3,11 +3,20 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header">{{ __('auth.auth_edit') }}</div>
 
                 <div class="card-body">
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
                         @method('PATCH')
@@ -51,6 +60,7 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                <small class="form-text text-muted">Hasło powinno składać się z co najmniej 8 znaków, dużej litery i znaku specjalnego.</small>
                             </div>
                         </div>
 
@@ -81,7 +91,7 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-7 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('auth.auth_go_edit') }}
                                 </button>

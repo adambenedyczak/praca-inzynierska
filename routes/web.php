@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('home');
 });
 
 Auth::routes();
@@ -29,7 +29,9 @@ Route::middleware(['auth'])->group(function() {
             ->name('update');
     });
 
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+    Route::get('/home', [App\Http\Controllers\DashboardController::class, 'index'])
         ->name('home');
+
+    Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->name('');
 });

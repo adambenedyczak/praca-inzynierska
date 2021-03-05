@@ -20,11 +20,11 @@ return [
     'btn_log_in' => 'Logowanie',
     'btn_register' => 'Rejestracja',
     'btn_log_out' => 'Wyloguj się', 
-    'btn_edit_data' => 'Moje dane',
+    'btn_edit_data' => 'Zmień hasło',
     
     'auth_log_in' => 'Logowanie',
     'auth_registration' => 'Rejestracja',
-    'auth_edit' => 'Twoje dane',
+    'auth_edit' => 'Zmiana hasła i loginu',
 
     'auth_name' => 'Imię',
     'auth_email' => 'Adres e-mail',
@@ -44,7 +44,10 @@ return [
     'auth_go_edit' => 'Zmień dane',
 
     'auth_no_account' => 'Nie masz konta?',
-    'auth_register_now' => 'Zarejestruj się teraz!'
+    'auth_register_now' => 'Zarejestruj się teraz!',
+
+    'auth_account' => 'Masz już konto?',
+    'auth_login_now' => 'Zaloguj się!'
 
     
 

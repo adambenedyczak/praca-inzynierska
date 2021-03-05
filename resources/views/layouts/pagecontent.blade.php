@@ -2,7 +2,7 @@
 
     @include('layouts.navbar')
 
-    <div class="container-fluid p-4">
+    <div class="container-fluid mt-5">
         @include('layouts.alert')
         @yield('content')
     </div>

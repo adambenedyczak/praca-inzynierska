@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="border-bottom: 1px solid #a6a6a6;">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top" style="border-bottom: 1px solid #a6a6a6;">
     @auth
         <button class="navbar-toggler" id="menu-toggle">
             <span class="navbar-toggler-icon"></span>

@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesPermissionsSeeder::class);
         $this->call(UsersSeeder::class);
 
+        
+        
         $this->call(ObjectsTypeSeeder::class);
-        $this->call(PartsTypeSeeder::class);
-        $this->call(PartsDateTypeSeeder::class);
-        $this->call(OverviewsDateTypeSeeder::class);
-        $this->call(InsurancesDateTypeSeeder::class);
+        $this->call(WorkTimeUnitSeeder::class);
 
         $this->call(ObjectsSeeder::class);
+
     }
 }

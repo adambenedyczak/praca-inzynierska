@@ -13,11 +13,10 @@ class PartType extends Model
     protected $table = 'parts_type';
 
     protected $fillable = [
-        'name',
-        'file_path'
+        'name'  
     ];
 
-    public function parts(){
-        $this->hasMany('\App\Models\Part');
+    public function elements_typeable(){
+        return $this->morphMany(Element::class, 'elements_typeable');
     }
 }
