@@ -1,9 +1,12 @@
 <div id="page-content-wrapper">
 
     @include('layouts.navbar')
-
-    <div class="container-fluid mt-5">
-        @include('layouts.alert')
+    @guest
+        <div class="container-fluid mt-5 container-guest">
+    @else
+        <div class="container-fluid mt-5 container-login">
+            @include('layouts.alert')
+    @endauth
         @yield('content')
     </div>
 </div>

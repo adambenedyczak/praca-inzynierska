@@ -47,7 +47,15 @@
 }
 
 div.container-fluid{
-  padding: 1rem 1rem 1rem 1rem;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.container-login{
+  padding-left: 1rem;
+}
+.container-guest{
+  padding-left: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -68,6 +76,14 @@ div.container-fluid{
   }
 
   div.container-fluid{
-    padding: 1rem 1rem 1rem 16rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+  .container-login{
+    padding-left: 16rem;
+  }
+  .container-guest{
+    padding-left: 1rem;
   }
 }

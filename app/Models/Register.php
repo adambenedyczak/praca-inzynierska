@@ -7,14 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ObjectType extends Model
+class Register extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'objects_type';
+    protected $table = 'registers';
 
     protected $fillable = [
-        'name'  
+        'objects_id',
+        'work_time_value',
+        'note',
+        'done_date'  
     ];
 
     public function objects(){

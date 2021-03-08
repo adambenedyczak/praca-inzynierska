@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\NotificationSent;
+use App\Models\SentMessage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class NotificationSentContent extends Model
+class MessageContent extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'notifications_sent_content';
+    protected $table = 'messages_content';
 
     protected $fillable = [
         'object_id',
@@ -21,10 +21,10 @@ class NotificationSentContent extends Model
         'element_category_name',
         'element_type_name',
         'element_expired_date',
-        'notification_sent_id'
+        'sent_messages_id'
     ];
 
-    public function notification_sent(){
-        return $this->belongsTo('\App\Models\NotificationSent');
+    public function sent_message(){
+        return $this->belongsTo('\App\Models\SentMessage');
     }
 }

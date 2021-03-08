@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 
 Auth::routes();
 
@@ -34,4 +32,12 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])
     ->name('');
+
+
+    Route::name('vehicles.')->prefix('vehicles')->group(function(){
+        Route::get('', '\App\Http\Controllers\VehicleController@index')
+            ->name('index')
+            ->middleware(['permission:objects.crud']);
+    });
+
 });

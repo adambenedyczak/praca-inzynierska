@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDateTable extends Migration
+class CreateRegistersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateDateTable extends Migration
      */
     public function up()
     {
-        Schema::create('date', function (Blueprint $table) {
+        Schema::create('registers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('elements_id')->unsigned();
-            $table->foreign('elements_id')->references('id')->on('elements');
-            $table->integer('date_type_id')->unsigned();
-            $table->foreign('date_type_id')->references('id')->on('date_type');
-            $table->date('date');
+            $table->integer('objects_id')->unsigned();
+            $table->foreign('objects_id')->references('id')->on('objects');
             $table->integer('work_time_value')->nullable();
-            $table->timestamps();
+            $table->string('note', 200);
+            $table->date('done_date');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +32,6 @@ class CreateDateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('date');
+        Schema::dropIfExists('registers');
     }
 }

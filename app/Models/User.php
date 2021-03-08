@@ -52,8 +52,8 @@ class User extends Authenticatable
         return $this->hasMany('\App\Models\EmailAdress');
     }
 
-    public function notifications(){
-        return $this->hasMany('\App\Models\NotificationList');
+    public function notification_rules(){
+        return $this->hasOne('\App\Models\NotificationRules');
     }
 
 }

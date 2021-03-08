@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDateTypeTable extends Migration
+class CreateSentMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateDateTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('date_type', function (Blueprint $table) {
+        Schema::create('sent_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 50)->unique();
+            $table->integer('user_id');
+            $table->string('email', 100);
+            $table->dateTime('when_sent');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,6 @@ class CreateDateTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('date_type');
+        Schema::dropIfExists('messages_sent');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotificationsSentTable extends Migration
+class CreateEventsTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateNotificationsSentTable extends Migration
      */
     public function up()
     {
-        Schema::create('notifications_sent', function (Blueprint $table) {
+        Schema::create('events_type', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->string('email', 100);
-            $table->dateTime('when_sent');
+            $table->string('name', 50)->unique();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +28,6 @@ class CreateNotificationsSentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications_sent');
+        Schema::dropIfExists('events_type');
     }
 }

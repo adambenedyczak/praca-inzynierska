@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ObjectModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,6 @@ class WorkTimeHistory extends Model
     ];
 
     public function object(){
-        return $this->belongsTo('\App\Models\Object');
+        return $this->belongsTo('\App\Models\ObjectModel');
     }
 }

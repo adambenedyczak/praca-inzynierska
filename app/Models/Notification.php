@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\Date;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\EmailAdress;
 use App\Models\ElementCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class NotificationList extends Model
+class Notification extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'notifications_list';
+    protected $table = 'notifications';
 
     protected $fillable = [
-        'date_id',
+        'event_id',
         'elements_category_id',
         'user_id',
         'send',
@@ -29,8 +29,8 @@ class NotificationList extends Model
         return $this->belongsTo('\App\Models\ElementCategory');
     }
 
-    public function date(){
-        return $this->belongsTo('\App\Models\Date');
+    public function event(){
+        return $this->belongsTo('\App\Models\Event');
     }
 
     public function user(){

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\NotificationSentContent;
+use App\Models\MessageContent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class NotificationSent extends Model
+class SentMessages extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'notifications_sent';
+    protected $table = 'sent_messages';
 
     protected $fillable = [
         'user_id',
@@ -19,7 +19,7 @@ class NotificationSent extends Model
         'when_sent'
     ];
 
-    public function notifications_sent_contents(){
-        return $this->hasMany('\App\Models\NotificationSentContent');
+    public function messages_content(){
+        return $this->hasMany('\App\Models\MessageContent');
     }
 }

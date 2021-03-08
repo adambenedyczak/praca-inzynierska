@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotificationsSentContentTable extends Migration
+class CreateMessagesContentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateNotificationsSentContentTable extends Migration
      */
     public function up()
     {
-        Schema::create('notifications_sent_content', function (Blueprint $table) {
+        Schema::create('messages_content', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('object_id');
             $table->string('object_name', 100);
@@ -22,8 +22,8 @@ class CreateNotificationsSentContentTable extends Migration
             $table->string('element_category_name', 100);
             $table->string('element_type_name', 100);
             $table->date('element_expired_date');
-            $table->integer('notification_sent_id')->unsigned();
-            $table->foreign('notification_sent_id')->references('id')->on('notification_sent');
+            $table->integer('sent_messages_id')->unsigned();
+            $table->foreign('sent_messages_id')->references('id')->on('sent_messages');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -36,6 +36,6 @@ class CreateNotificationsSentContentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications_sent_content');
+        Schema::dropIfExists('messages_content');
     }
 }

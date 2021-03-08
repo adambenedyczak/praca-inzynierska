@@ -20,11 +20,12 @@
 </head>
 <body>
     <div class="d-flex" id="wrapper">
+        
         @include('layouts.sidebar')
         @include('layouts.pagecontent')
     </div>    
 
-    <script type="text/javascript" src="{{ url('js/app.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ url('js/app.js') }}"></script> -->
     <script type="text/javascript" src="{{ url('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('js/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('js/bootstrap.min.js') }}"></script>
