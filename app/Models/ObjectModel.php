@@ -39,4 +39,7 @@ class ObjectModel extends Model
     public function user(){
         return $this->belongsTo('\App\Models\User');
     }
+    public function detail_ownerable(){
+        return $this->morphMany(Detail::class, 'detail_ownerable');
+    }
 }

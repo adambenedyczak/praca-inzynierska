@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detail;
-use App\Models\ObjectModel;
 use Illuminate\Http\Request;
-use App\Models\ObjectDetailType;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateVehicleRequest;
 
-class VehicleController extends Controller
+class MachineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +13,28 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = ObjectModel::with('detail_ownerable')->where('object_type_id','1')->get();
-        
-        //dd($vehicles);
+        //
+    }
 
-        /*dd($vehicles[1]->detail_ownerable[2]->own_name, $vehicles[1]->detail_ownerable[2]->value);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-
-
-        foreach($vehicles[1]->detail_ownerable as $detail){
-            dd( $detail->value, $detail->detail_typeable->name);
-        }*/
-
-        return view('vehicles.index', compact('vehicles'));
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
@@ -75,9 +79,6 @@ class VehicleController extends Controller
      */
     public function destroy($id)
     {
-        $vehicle = ObjectModel::findOrFail($id);
-        $vehicle->delete();
-
-        return back()->with('success', 'Pojazd został usunięty');
+        //
     }
 }

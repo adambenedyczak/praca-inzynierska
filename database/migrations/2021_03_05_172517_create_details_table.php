@@ -15,13 +15,11 @@ class CreateDetailsTable extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('elements_id')->unsigned();
-            $table->foreign('elements_id')->references('id')->on('elements');
-            $table->morphs('detail_typeable');
+            $table->morphs('detail_ownerable');
+            $table->nullableMorphs('detail_typeable');
             $table->string('own_name', 100)->nullable();
             $table->string('value', 100);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row px-1">
+<div class="row">
     
     @foreach ($vehicles as $vehicle)
     <div class="col-xl-6 col-xxl-4 p-2">

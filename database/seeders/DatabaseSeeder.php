@@ -19,8 +19,10 @@ class DatabaseSeeder extends Seeder
         
         
         $this->call(ObjectsTypeSeeder::class);
+        $this->call(ObjectDetailsTypeSeeder::class);
         $this->call(WorkTimeUnitSeeder::class);
 
+        
         $this->call(ObjectsSeeder::class);
 
     }

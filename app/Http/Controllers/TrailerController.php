@@ -7,9 +7,9 @@ use App\Models\ObjectModel;
 use Illuminate\Http\Request;
 use App\Models\ObjectDetailType;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateVehicleRequest;
+use App\Http\Requests\StoreObjectRequest;
 
-class VehicleController extends Controller
+class TrailerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +18,9 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = ObjectModel::with('detail_ownerable')->where('object_type_id','1')->get();
-        
-        //dd($vehicles);
+        $trailers = ObjectModel::where('object_type_id','2')->get();
 
-        /*dd($vehicles[1]->detail_ownerable[2]->own_name, $vehicles[1]->detail_ownerable[2]->value);
-
-
-
-        foreach($vehicles[1]->detail_ownerable as $detail){
-            dd( $detail->value, $detail->detail_typeable->name);
-        }*/
-
-        return view('vehicles.index', compact('vehicles'));
+        return view('trailers.index', compact('trailers'));
     }
 
     /**
@@ -75,9 +65,9 @@ class VehicleController extends Controller
      */
     public function destroy($id)
     {
-        $vehicle = ObjectModel::findOrFail($id);
-        $vehicle->delete();
+        $trailer = ObjectModel::findOrFail($id);
+        $trailer->delete();
 
-        return back()->with('success', 'Pojazd został usunięty');
+        return back()->with('success', 'Przyczepa została usunięta');
     }
 }

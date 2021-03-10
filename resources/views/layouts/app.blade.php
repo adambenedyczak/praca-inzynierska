@@ -16,10 +16,14 @@
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
 
+   
+
     @yield('css-styles')
+
+    @livewireStyles
 </head>
 <body>
-    <div class="d-flex" id="wrapper">
+    <div class="d-flex px-1" id="wrapper">
         
         @include('layouts.sidebar')
         @include('layouts.pagecontent')
@@ -30,7 +34,10 @@
     <script type="text/javascript" src="{{ url('js/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('js/bootstrap.min.js') }}"></script>
     
+
     @yield('js-scripts')
+
+    @livewireScripts
 </body>
 
 </html>

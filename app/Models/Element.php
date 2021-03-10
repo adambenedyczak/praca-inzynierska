@@ -35,8 +35,8 @@ class Element extends Model
     public function dates(){
         return $this->hasMany('\App\Models\Date');
     }
-    public function details(){
-        return $this->hasMany('\App\Models\Detail');
+    public function detail_ownerable(){
+        return $this->morphMany(Detail::class, 'detail_ownerable');
     }
     public function object(){
         return $this->belongsTo('\App\Models\ObjectModel');
