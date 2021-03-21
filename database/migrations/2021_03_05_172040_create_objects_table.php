@@ -13,7 +13,7 @@ class CreateObjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('objects', function (Blueprint $table) {
+        Schema::create('objects_model', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 100);
             $table->integer('object_type_id')->unsigned();

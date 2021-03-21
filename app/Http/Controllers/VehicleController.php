@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detail;
+use App\Models\Element;
 use App\Models\ObjectModel;
 use Illuminate\Http\Request;
 use App\Models\ObjectDetailType;
@@ -19,17 +20,6 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = ObjectModel::with('detail_ownerable')->where('object_type_id','1')->get();
-        
-        //dd($vehicles);
-
-        /*dd($vehicles[1]->detail_ownerable[2]->own_name, $vehicles[1]->detail_ownerable[2]->value);
-
-
-
-        foreach($vehicles[1]->detail_ownerable as $detail){
-            dd( $detail->value, $detail->detail_typeable->name);
-        }*/
-
         return view('vehicles.index', compact('vehicles'));
     }
 
@@ -41,7 +31,35 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
-        //
+        $vehicle = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
+        if(Auth::id() != $vehicle->user_id){
+            return back();
+        }else{
+
+            $parts = Element::with(
+                                'details_ownerable',
+                                'elements_typeable', 
+                                'element_category',
+                                'dates')
+                                ->where('object_model_id', $id)
+                                ->where('elements_category_id', '1')->get();
+            $overviews = Element::with(
+                                'details_ownerable',
+                                'elements_typeable', 
+                                'element_category',
+                                'dates')
+                                ->where('object_model_id', $id)
+                                ->where('elements_category_id', '2')->get();
+            $insurances = Element::with(
+                                'details_ownerable',
+                                'elements_typeable', 
+                                'element_category',
+                                'dates')
+                                ->where('object_model_id', $id)
+                                ->where('elements_category_id', '3')->get();
+            //dd($vehicle, $parts, $overviews, $insurances);
+            return view('vehicles.show', compact('vehicle', 'parts', 'insurances', 'overviews'));
+        }        
     }
 
     /**
@@ -78,6 +96,6 @@ class VehicleController extends Controller
         $vehicle = ObjectModel::findOrFail($id);
         $vehicle->delete();
 
-        return back()->with('success', 'Pojazd został usunięty');
+        return redirect()->route('vehicles.index')->with('success', 'Pojazd został usunięty');
     }
 }

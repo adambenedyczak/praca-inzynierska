@@ -49,6 +49,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('', '\App\Http\Controllers\VehicleController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
+        Route::get('{id}', '\App\Http\Controllers\VehicleController@show')
+            ->name('show')
+            ->where('id', '[0-9]+')
+            ->middleware(['permission:objects.show']);
         Route::delete('{id}', '\App\Http\Controllers\VehicleController@destroy')
             ->name('destroy')
             ->where('id', '[0-9]+')

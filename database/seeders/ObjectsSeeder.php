@@ -17,28 +17,28 @@ class ObjectsSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        DB::table('objects')->insert([
+        DB::table('objects_model')->insert([
             'name' => 'Ford Fusion',
             'object_type_id' => '1',
             'user_id' => '1',
             'work_time_unit_id' => '1'
         ]);
 
-        DB::table('objects')->insert([
+        DB::table('objects_model')->insert([
             'name' => 'Fogo FDG 250',
             'object_type_id' => '3',
             'user_id' => '1',
             'work_time_unit_id' => '2'
         ]);
 
-        DB::table('objects')->insert([
+        DB::table('objects_model')->insert([
             'name' => 'Fogo FDG 80',
             'object_type_id' => '3',
             'user_id' => '1',
             'work_time_unit_id' => '2'
         ]);
 
-        DB::table('objects')->insert([
+        DB::table('objects_model')->insert([
             'name' => 'Rumpumpa',
             'object_type_id' => '2',
             'user_id' => '1',

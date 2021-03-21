@@ -15,7 +15,6 @@ class CreateNotificationsRulesTable extends Migration
     {
         Schema::create('notifications_rules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('email')->unique();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('parts_notifications')->default('1');

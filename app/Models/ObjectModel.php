@@ -15,7 +15,7 @@ class ObjectModel extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'objects';
+    protected $table = 'objects_model';
 
     protected $fillable = [
         'name',

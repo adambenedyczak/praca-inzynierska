@@ -15,8 +15,8 @@ class CreateWorkTimeHistoriesTable extends Migration
     {
         Schema::create('work_time_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('objects_id')->unsigned();
-            $table->foreign('objects_id')->references('id')->on('objects');
+            $table->integer('object_model_id')->unsigned();
+            $table->foreign('object_model_id')->references('id')->on('objects_model');
             $table->integer('value');
             $table->timestamps();
             $table->softDeletes();

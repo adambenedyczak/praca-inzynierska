@@ -19,9 +19,9 @@ class CreateEmailAdressTable extends Migration
             $table->boolean('enable')->default('1');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('parts_notifications')->default('1');
-            $table->integer('overviews_notifications')->default('1');
-            $table->integer('insurances_notifications')->default('1');
+            $table->boolean('parts_notifications')->default('1');
+            $table->boolean('overviews_notifications')->default('1');
+            $table->boolean('insurances_notifications')->default('1');
             $table->timestamps();
             $table->softDeletes();
         });

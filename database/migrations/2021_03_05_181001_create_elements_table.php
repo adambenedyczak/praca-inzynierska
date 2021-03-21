@@ -15,8 +15,8 @@ class CreateElementsTable extends Migration
     {
         Schema::create('elements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('objects_id')->unsigned();
-            $table->foreign('objects_id')->references('id')->on('objects');
+            $table->integer('object_model_id')->unsigned();
+            $table->foreign('object_model_id')->references('id')->on('objects_model');
             $table->string('name', 100);
             $table->integer('elements_category_id')->unsigned();
             $table->foreign('elements_category_id')->references('id')->on('elements_category');

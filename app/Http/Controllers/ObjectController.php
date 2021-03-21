@@ -76,7 +76,20 @@ class ObjectController extends Controller
         }
 
 
-        dd($obiekt->id);
         $request->session()->forget('object_category');
+        switch($object_category){
+            case '1': 
+                return redirect()->route('vehicles.show', $obiekt->id);
+                break;
+            case '2':
+                //return redirect()->route('trailers.show', $obiekt->id);
+                break;
+            case '3':
+                //return redirect()->route('machines.show', $obiekt->id);
+                break;
+            default:
+                return redirect()->route('');
+                break;
+        }
     }
 }
