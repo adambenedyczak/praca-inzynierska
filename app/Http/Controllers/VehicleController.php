@@ -12,11 +12,6 @@ use App\Http\Requests\UpdateVehicleRequest;
 
 class VehicleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $vehicles = ObjectModel::with('detail_ownerable')
@@ -26,12 +21,6 @@ class VehicleController extends Controller
         return view('vehicles.index', compact('vehicles'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $vehicle = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
@@ -42,42 +31,5 @@ class VehicleController extends Controller
         }else{
             return view('vehicles.show', compact('vehicle'));
         }        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $vehicle = ObjectModel::findOrFail($id);
-        $vehicle->delete();
-
-        return redirect()->route('vehicles.index')->with('success', 'Pojazd został usunięty');
     }
 }

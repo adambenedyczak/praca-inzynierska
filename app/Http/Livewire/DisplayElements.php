@@ -5,12 +5,17 @@ namespace App\Http\Livewire;
 use App\Models\Element;
 use Livewire\Component;
 use App\Models\ObjectModel;
+use App\Models\WorkTimeHistory;
 
 class DisplayElements extends Component
 {
     public $ifAddElement = false;
+    public $ifAddWorkTimeHistory = false;
     public $object_id;
     public $object;
+
+    public $currentWorkTimeValue;
+    public $oldWorkTimeValue;
 
     public $elements = [];
 
@@ -28,8 +33,27 @@ class DisplayElements extends Component
                     ->orderBy('name')->get()
                     ->groupBy( 'elements_category_id', 'elements_typeable_id')
                     ->all();
-        //dd($this->elements);
+        if(WorkTimeHistory::where('object_model_id', $this->object->id)->orderBy('created_at', 'desc')->first()){
+            $this->currentWorkTimeValue = WorkTimeHistory::where('object_model_id', $this->object->id)->orderBy('created_at', 'desc')->first()->value;
+            $this->oldWorkTimeValue = $this->currentWorkTimeValue;
+        }else{
+            $this->oldWorkTimeValue = 0;
+        }
+    }
 
+    public function storeNewWorkTimeHistory(){
+        $this->validate([
+            'currentWorkTimeValue' => 'required|numeric|gt:oldWorkTimeValue',
+        ],
+        [
+            'currentWorkTimeValue.required' => 'Wartość jest wymagana',
+            'currentWorkTimeValue.gte' => 'Przebieg musi być większy niż aktualny'
+        ]);
+        $newWorkTimeHistory = new WorkTimeHistory;
+        $newWorkTimeHistory->object_model_id = $this->object_id;
+        $newWorkTimeHistory->value = $this->currentWorkTimeValue;
+        $newWorkTimeHistory->save();
+        $this->ifAddWorkTimeHistory = false;
     }
 
     public function addNewElement(){

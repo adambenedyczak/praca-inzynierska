@@ -70,7 +70,7 @@ class AddNewObject extends Component
     protected $rules = [
         'object_name' => 'required|string|min:5|max:100',
         'selectedWorkTimeUnit' => 'required',
-        'workTimeValue' => 'numeric|gt:0'
+        'workTimeValue' => 'nullable|numeric|gt:0'
     ];
 
     public function updated($object_name){

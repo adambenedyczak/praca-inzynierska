@@ -1,7 +1,38 @@
 <div>
     @if($ifAddElement == false)
-    <div class="row">
-        <div class="col-md-4 offset-md-8">
+    <div class="row justify-content-between">
+        @if($ifAddWorkTimeHistory == false)
+            <div class="col-md-4 my-1">                
+                <button wire:click="$set('ifAddWorkTimeHistory', true)"class="btn btn-success btn-block" type="button">
+                    Aktualizuj przebieg
+                </button>
+            </div>
+        @else
+            <div class="col-md-8 my-1">  
+                <div class="container p-0 m-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            Aktualny przebieg
+                        </div>
+                        <div class="col-md-4 my-1">
+                            <input id="currentWorkTimeValue" wire:model="currentWorkTimeValue" type="number" class="form-control" min="{{ $oldWorkTimeValue }}" step="1">  
+                            @error('currentWorkTimeValue') 
+                                <small class="form-text text-danger">
+                                    {{ $message }}
+                                </small>
+                            @enderror
+                        </div>
+                        <div class="col-md-5 my-1">
+                            <div class="btn-group btn-block" role="group" id="20">
+                                <button wire:click="$set('ifAddWorkTimeHistory', false)" type="button" class="btn btn-outline-primary">Anuluj</button>
+                                <button wire:click="storeNewWorkTimeHistory" type="button" class="btn btn-success">Zapisz</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+            </div>
+        @endif
+        <div class="col-md-4 my-1">
             <button wire:click="addNewElement" class="btn btn-primary btn-block" type="button">
                 Dodaj informacje
             </button>

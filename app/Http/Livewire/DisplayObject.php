@@ -91,10 +91,10 @@ class DisplayObject extends Component
                 return redirect()->route('vehicles.show', $this->object_id);
                 break;
             case '2':
-                //return redirect()->route('trailers.show', $obiekt->id);
+                return redirect()->route('trailers.show', $this->object_id);
                 break;
             case '3':
-                //return redirect()->route('machines.show', $obiekt->id);
+                return redirect()->route('machines.show', $this->object_id);
                 break;
         }
     }

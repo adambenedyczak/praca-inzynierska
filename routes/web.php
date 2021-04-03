@@ -42,18 +42,6 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.crud']);
     });
 
-    Route::name('parts.')->prefix('parts')->group(function(){
-        Route::get('create/{owner}', '\App\Http\Controllers\PartController@create')
-            ->name('create')
-            ->where('owner', '[0-9]+')
-            ->middleware(['permission:objects.crud']);
-        Route::post('store/{id}/{owner}', '\App\Http\Controllers\PartController@store')
-            ->name('store')
-            ->where('id', '1|2|3')
-            ->where('owner', '[0-9]+')
-            ->middleware(['permission:objects.crud']);
-    });
-
     Route::name('vehicles.')->prefix('vehicles')->group(function(){
         Route::get('', '\App\Http\Controllers\VehicleController@index')
             ->name('index')
@@ -68,11 +56,19 @@ Route::middleware(['auth'])->group(function() {
         Route::get('', '\App\Http\Controllers\TrailerController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
+        Route::get('{id}', '\App\Http\Controllers\TrailerController@show')
+            ->name('show')
+            ->where('id', '[0-9]+')
+            ->middleware(['permission:objects.show']);
     });
 
     Route::name('machines.')->prefix('machines')->group(function(){
         Route::get('', '\App\Http\Controllers\MachineController@index')
             ->name('index')
+            ->middleware(['permission:objects.show']);
+        Route::get('{id}', '\App\Http\Controllers\MachineController@show')
+            ->name('show')
+            ->where('id', '[0-9]+')
             ->middleware(['permission:objects.show']);
     });
 

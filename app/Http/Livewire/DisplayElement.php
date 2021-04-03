@@ -83,12 +83,18 @@ class DisplayElement extends Component
         $this->tomorrow = Carbon::now()->addDays(1)->format('d-m-Y');
         $this->today = Carbon::now()->format('d-m-Y');
 
-        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object->id)->orderBy('created_at', 'desc')->first();
-        $this->workTVV = $this->workTimeValue->value;
+        if(WorkTimeHistory::where('object_model_id', $this->object->id)->orderBy('created_at', 'desc')->first()){
+            $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object->id)->orderBy('created_at', 'desc')->first();
+            $this->workTVV = $this->workTimeValue->value;
+        }
         $this->element_name = $this->element->name;
-        $this->selectedType = $this->element->elements_typeable_id;           
-        $this->nextDate = $this->event->expired_date;
-        $this->nextWorkTimeValue = $this->event->work_time_value;
+        $this->selectedType = $this->element->elements_typeable_id; 
+        if(isset($this->event->expired_date)){
+            $this->nextDate = $this->event->expired_date;
+        } 
+        if(isset($this->event->work_time_value)){
+            $this->nextWorkTimeValue = $this->event->work_time_value;
+        }
 
 
     }
@@ -112,10 +118,10 @@ class DisplayElement extends Component
                 return redirect()->route('vehicles.show', $this->object->id);
                 break;
             case '2':
-                //return redirect()->route('trailers.show', $obiekt->id);
+                return redirect()->route('trailers.show', $this->object->id);
                 break;
             case '3':
-                //return redirect()->route('machines.show', $obiekt->id);
+                return redirect()->route('machines.show', $this->object->id);
                 break;
             default:
                 return redirect()->route('');
@@ -232,13 +238,14 @@ class DisplayElement extends Component
     public function storeNewEvent(){
         $this->validate([
             'doneDate' => 'required|date|before_or_equal:today',
-            'doneWorkTimeValue' => 'nullable|numeric',
-            'nextNextDate' => 'required|date|after:doneDate',
+            'doneWorkTimeValue' => 'nullable|numeric|gte:workTVV',
+            'nextNextDate' => 'required|date|after:doneDate|after:today',
             'nextNextWorkTimeValue' => 'nullable|numeric|gt:doneWorkTimeValue',
         ],
         [
             'doneDate.required' => 'Data jest wymagana',
             'doneDate.before_or_equal' => 'Data nie może być późniejsza niż :date',
+            'doneWorkTimeValue.gte' => 'Przebieg musi być większy lub równy aktualnemu w bazie',
             'nextNextDate.required' => 'Data jest wymagana',
             'nextNextDate.after' => 'Data musi poźniejsza niź :date',
             'nextNextWorkTimeValue.gt' => 'Przebieg musi być większy niż :value',

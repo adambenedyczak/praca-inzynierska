@@ -21,11 +21,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ObjectsTypeSeeder::class);
         $this->call(ObjectDetailsTypeSeeder::class);
         $this->call(WorkTimeUnitSeeder::class);
+        $this->call(ElementsCategorySeeder::class);
+        
+        //$this->call(ObjectsSeeder::class);
 
         
-        $this->call(ObjectsSeeder::class);
-
-        $this->call(ElementsCategorySeeder::class);
         $this->call(EventsTypeSeeder::class);
         $this->call(InsurancesTypeSeeder::class);
         $this->call(OverviewsTypeSeeder::class);

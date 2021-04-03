@@ -43,8 +43,10 @@ class AddNewElement extends Component
             ['own_name' => '', 'value' => '']
         ];
         $this->tomorrow = Carbon::now()->addDays(1)->format('d-m-Y');
-        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first();
-        $this->workTVV = $this->workTimeValue->value;
+        if(WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first()){
+            $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first();
+            $this->workTVV = $this->workTimeValue->value;
+        }
     }
 
     public function updatedSelectedType($value){
@@ -147,10 +149,10 @@ class AddNewElement extends Component
                 return redirect()->route('vehicles.show', $this->object_id);
                 break;
             case '2':
-                //return redirect()->route('trailers.show', $this->object_id);
+                return redirect()->route('trailers.show', $this->object_id);
                 break;
             case '3':
-                //return redirect()->route('machines.show', $this->object_id);
+                return redirect()->route('machines.show', $this->object_id);
                 break;
             default:
                 return redirect()->route('');
@@ -164,10 +166,10 @@ class AddNewElement extends Component
                 return redirect()->route('vehicles.show', $this->object_id);
                 break;
             case '2':
-                //return redirect()->route('trailers.show', $this->object_id);
+                return redirect()->route('trailers.show', $this->object_id);
                 break;
             case '3':
-                //return redirect()->route('machines.show', $this->object_id);
+                return redirect()->route('machines.show', $this->object_id);
                 break;
             default:
                 return redirect()->route('');
