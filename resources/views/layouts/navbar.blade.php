@@ -1,15 +1,12 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top" style="border-bottom: 1px solid #a6a6a6;">
-    @auth
-        <button class="navbar-toggler" id="menu-toggle">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+    @auth      
+        <button class="btn btn-primary" id="menu-toggle">
             <span class="navbar-toggler-icon"></span>
         </button>
     @endauth
+    <a class="navbar-brand ml-md-3 ml-sm-1 pt-2" href="{{ route('home')}}">{{ config('app.name', 'Laravel') }}</a>
 
-
-        <a class="navbar-brand ml-2" href="{{ route('home')}}">{{ config('app.name', 'Laravel') }}</a>
-        
-    
-    @auth
+        @auth
         <div class="dropdown ml-auto">
             <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle mr-1" viewBox="0 0 16 16">
@@ -37,7 +34,5 @@
                 </form>
             </div>
         </div>
-    @endauth
-            
-
+        @endauth
 </nav>

@@ -2,28 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detail;
-use App\Models\Element;
 use App\Models\ObjectModel;
 use Illuminate\Http\Request;
-use App\Models\ObjectDetailType;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateVehicleRequest;
 
-class VehicleController extends Controller
+class ElementController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function create(Request $request, $id, $owner)
     {
-        $vehicles = ObjectModel::with('detail_ownerable')
-                                ->where('user_id', Auth::id())
-                                ->where('object_type_id','1')
-                                ->get();
-        return view('vehicles.index', compact('vehicles'));
+        $owner = ObjectModel::where('id', $owner)->first();
+        if($owner){
+            $parent = $owner->id;
+            if($id>0 && $id <4 && $owner->user_id == Auth::id()){       
+                return view('elements.create', compact('id', 'parent'));
+            }else{
+                return back();
+            }   
+        }else{
+            return back();
+        }   
+             
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
     }
 
     /**
@@ -34,14 +48,7 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
-        $vehicle = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
-        if($vehicle == null){
-            return back();
-        }else if(Auth::id() != $vehicle->user_id){
-            return back();
-        }else{
-            return view('vehicles.show', compact('vehicle'));
-        }        
+        //
     }
 
     /**
@@ -75,9 +82,6 @@ class VehicleController extends Controller
      */
     public function destroy($id)
     {
-        $vehicle = ObjectModel::findOrFail($id);
-        $vehicle->delete();
-
-        return redirect()->route('vehicles.index')->with('success', 'Pojazd został usunięty');
+        //
     }
 }

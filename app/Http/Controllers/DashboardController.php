@@ -17,20 +17,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user_id = Auth::user()->id;
-
-        $vehicles = ObjectModel::where('user_id', $user_id)
-                                ->where('object_type_id', '1')
-                                ->get();
-        $vehicles_quantity = $vehicles->count();
-        $trailers = ObjectModel::where('user_id', $user_id)
-                                ->where('object_type_id', '2')
-                                ->get();
-        $trailers_quantity = $trailers->count();
-        $engines = ObjectModel::where('user_id', $user_id)
-                                ->where('object_type_id', '3')
-                                ->get();
-        $engines_quantity = $engines->count();
-        return view('dashboard', compact('vehicles', 'trailers', 'engines'));
+        $favs = ObjectModel::where('user_id', Auth::id())->where('favourite', true)->get();
+        return view('dashboard', compact('favs'));
     }
 }

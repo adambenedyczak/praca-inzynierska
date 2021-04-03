@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::view('/test', 'test');
 
 
 Route::middleware(['auth'])->group(function() {
@@ -36,12 +37,20 @@ Route::middleware(['auth'])->group(function() {
 
 
     Route::name('objects.')->prefix('objects')->group(function(){
-        Route::get('create/{id}', '\App\Http\Controllers\ObjectController@create')
+        Route::get('create', '\App\Http\Livewire\AddNewObject')
             ->name('create')
-            ->where('id', '1|2|3')
             ->middleware(['permission:objects.crud']);
-        Route::post('store', '\App\Http\Controllers\ObjectController@store')
+    });
+
+    Route::name('parts.')->prefix('parts')->group(function(){
+        Route::get('create/{owner}', '\App\Http\Controllers\PartController@create')
+            ->name('create')
+            ->where('owner', '[0-9]+')
+            ->middleware(['permission:objects.crud']);
+        Route::post('store/{id}/{owner}', '\App\Http\Controllers\PartController@store')
             ->name('store')
+            ->where('id', '1|2|3')
+            ->where('owner', '[0-9]+')
             ->middleware(['permission:objects.crud']);
     });
 
@@ -53,63 +62,23 @@ Route::middleware(['auth'])->group(function() {
             ->name('show')
             ->where('id', '[0-9]+')
             ->middleware(['permission:objects.show']);
-        Route::delete('{id}', '\App\Http\Controllers\VehicleController@destroy')
-            ->name('destroy')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:objects.crud']);
     });
 
     Route::name('trailers.')->prefix('trailers')->group(function(){
         Route::get('', '\App\Http\Controllers\TrailerController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
-        Route::delete('{id}', '\App\Http\Controllers\TrailerController@destroy')
-            ->name('destroy')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:objects.crud']);
     });
 
     Route::name('machines.')->prefix('machines')->group(function(){
         Route::get('', '\App\Http\Controllers\MachineController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
-        Route::delete('{id}', '\App\Http\Controllers\MachineController@destroy')
-            ->name('destroy')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:objects.crud']);
     });
 
-    /*
-Route::middleware(['auth'])->group(function() {
-    Route::name('gatunki.')->prefix('gatunki')->group(function(){
-        Route::get('', '\App\Http\Controllers\GatunekController@index')
-            ->name('index')
-            ->middleware(['permission:gatunki.index']);
-        Route::get('create', '\App\Http\Controllers\GatunekController@create')
-            ->name('create')
-            ->middleware(['permission:gatunki.store']);
-        Route::post('', '\App\Http\Controllers\GatunekController@store')
-            ->name('store')
-            ->middleware(['permission:gatunki.store']);
-        Route::get('{id}', '\App\Http\Controllers\GatunekController@show')
-            ->name('show')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:gatunki.show']);
-        Route::get('{id}/edit', '\App\Http\Controllers\GatunekController@edit')
-            ->name('edit')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:gatunki.store']);
-        Route::patch('{id}', '\App\Http\Controllers\GatunekController@update')
-            ->name('update')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:gatunki.store']);
-        Route::delete('{id}', '\App\Http\Controllers\GatunekController@destroy')
-            ->name('destroy')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:gatunki.store']);
-    });
-});
-    */
+
+
+
 });
 
 

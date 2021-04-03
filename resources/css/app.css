@@ -1,7 +1,9 @@
-
+body{
+  background-color: #f3f3f3;
+}
 #wrapper {
-    overflow-x: hidden;
- }
+  overflow-x: hidden;
+}
 
 #sidebar-wrapper {
   min-height: 100vh;
@@ -23,14 +25,6 @@
 #sidebar-wrapper .list-group {
   width: 15rem;
 }
-.list-group a{
-  font-weight: 600;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-.list-group a:hover{
-  background-color: rgb(255, 213, 158);
-}
 
 #page-content-wrapper {
   min-width: 100vw;
@@ -40,31 +34,19 @@
   margin-left: 0;
 }
 
-.sidebar-header{
-  color: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
-  font-weight: 400;
-}
-
-div.container-fluid{
-  padding-top: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 1rem;
-}
-.container-login{
-  padding-left: 1rem;
-}
-.container-guest{
-  padding-left: 1rem;
-}
-
 @media (min-width: 768px) {
   #sidebar-wrapper {
-    margin-left: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+    border-style: none;
+    position: relative; 
+    z-index:1;
   }
+
 
   #page-content-wrapper {
     min-width: 0;
@@ -72,18 +54,7 @@ div.container-fluid{
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -15rem;
+    margin-left: 0;
   }
 
-  div.container-fluid{
-    padding-top: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
-  }
-  .container-login{
-    padding-left: 16rem;
-  }
-  .container-guest{
-    padding-left: 1rem;
-  }
 }

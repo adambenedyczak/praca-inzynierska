@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class InsurancesTypeSeeder extends Seeder
+class PartDetailsTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,14 @@ class InsurancesTypeSeeder extends Seeder
     public function run()
     {
         $elementy = [
-            1 => 'Ubezpieczenia OC',
-            2 => 'Ubezpieczenia AC',
-            3 => 'Inne'
+            1 => 'Lepkość',
+            2 => 'Pojemność',
+            3 => 'Długość',
+            4 => 'Szerokość'
         ];
 
         foreach ($elementy as $key => $element){
-            DB::table('insurances_type')->insert([
+            DB::table('part_details_type')->insert([
                 'name' => $element
             ]);
         }

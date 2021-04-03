@@ -23,7 +23,7 @@
     @livewireStyles
 </head>
 <body>
-    <div class="d-flex px-1" id="wrapper">
+    <div class="d-flex" id="wrapper">
         
         @include('layouts.sidebar')
         @include('layouts.pagecontent')
@@ -35,9 +35,12 @@
     <script type="text/javascript" src="{{ url('js/bootstrap.min.js') }}"></script>
     
 
+
     @yield('js-scripts')
 
     @livewireScripts
+
 </body>
+
 
 </html>

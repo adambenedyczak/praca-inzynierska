@@ -15,9 +15,9 @@ class OverviewsTypeSeeder extends Seeder
     public function run()
     {
         $elementy = [
-            1 => 'Przegląd okresowy',
-            2 => 'Przegląd homologacyjny',
-            3 => 'Przegląd techniczny'
+            1 => 'Przeglądy okresowe',
+            2 => 'Przeglądy homologacyjne',
+            3 => 'Przeglądy techniczne'
         ];
 
         foreach ($elementy as $key => $element){

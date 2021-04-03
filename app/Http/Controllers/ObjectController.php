@@ -19,11 +19,7 @@ class ObjectController extends Controller
      */
     public function create(Request $request, $id)
     {
-        if($id>0 && $id <4){
-            if ($request->session()->has('object_category')) {
-                $request->session()->forget('object_category');
-            }            
-            $request->session()->put('object_category', $id);            
+        if($id>0 && $id <4){      
             return view('object.create', compact('id'));
         }else{
             return back();
@@ -38,10 +34,8 @@ class ObjectController extends Controller
      */
     public function store(StoreObjectRequest $request)
     {
-        $object_category = $request->session()->get('object_category');
-
+        $object_category = $request->route('id');
         $user = Auth::user()->id;
-        //dd($request);
         $obiekt = new ObjectModel;
         $obiekt->name = $request->object_name;
         $obiekt->object_type_id = $object_category;
@@ -76,7 +70,7 @@ class ObjectController extends Controller
         }
 
 
-        $request->session()->forget('object_category');
+        //$request->session()->forget('object_category');
         switch($object_category){
             case '1': 
                 return redirect()->route('vehicles.show', $obiekt->id);

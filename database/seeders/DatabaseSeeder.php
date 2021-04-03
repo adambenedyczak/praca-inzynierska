@@ -25,5 +25,12 @@ class DatabaseSeeder extends Seeder
         
         $this->call(ObjectsSeeder::class);
 
+        $this->call(ElementsCategorySeeder::class);
+        $this->call(EventsTypeSeeder::class);
+        $this->call(InsurancesTypeSeeder::class);
+        $this->call(OverviewsTypeSeeder::class);
+        $this->call(PartsTypeSeeder::class);
+        $this->call(PartDetailsTypeSeeder::class);
+
     }
 }

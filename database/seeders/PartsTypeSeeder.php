@@ -15,10 +15,13 @@ class PartsTypeSeeder extends Seeder
     public function run()
     {
         $elementy = [
-            1 => 'Olej silnikowy',
-            2 => 'Filtr paliwa',
-            3 => 'Filtr powietrza',
-            4 => 'Filtr oleju'
+            1 => 'Oleje',
+            2 => 'Filtry',
+            3 => 'Układ hamulcowy',
+            4 => 'Układ napędowy',
+            5 => 'Układ kierowniczy',
+            7 => 'Ogumienie',
+            6 => 'Inne',
         ];
 
         foreach ($elementy as $key => $element){

@@ -22,6 +22,7 @@ class CreateObjectsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('work_time_unit_id')->unsigned();
             $table->foreign('work_time_unit_id')->references('id')->on('work_time_units');
+            $table->boolean('favourite')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
