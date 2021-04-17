@@ -12,6 +12,7 @@ use App\Models\OverviewType;
 use App\Models\InsuranceType;
 use Illuminate\Support\Carbon;
 use App\Models\WorkTimeHistory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DisplayElement extends Component
@@ -29,6 +30,9 @@ class DisplayElement extends Component
 
     public $allType = [];
     public $selectedType;
+
+    public $oldSetEvent;
+    public $isSetEvent;
 
     public $element_name;
     public $selectedCategory;
@@ -57,21 +61,14 @@ class DisplayElement extends Component
         $this->object = ObjectModel::with('work_time_unit')->where('id', $this->element->object_model_id)->first();
 
         $this->event = Event::where('element_id', $this->element_id)->where('events_type_id', 2)->first(); 
+            if($this->event == null){
+                $this->isSetEvent = false;
+                
+            }else{
+                $this->isSetEvent = true;
+            }
+            $this->oldSetEvent = $this->isSetEvent;
 
-        $count = Detail::where('detail_ownerable_id', $this->element_id)
-                    ->whereNotNull('own_name')->count();        
-        if($count > 1){
-            $count_half = $count/2;
-            $ownDetails = Detail::where('detail_ownerable_id', $this->element_id)
-                    ->whereNotNull('own_name')->get();
-            $this->ownDetails = $ownDetails->chunk($count_half)->toArray();
-        }else{
-            $ownDetails = Detail::where('detail_ownerable_id', $this->element_id)
-                    ->whereNotNull('own_name')->get();
-            $this->ownDetails = $ownDetails->chunk(1)->toArray();
-        }
-        $this->ownDetailsEdit = array_values(Detail::where('detail_ownerable_id', $this->element_id)
-                    ->whereNotNull('own_name')->get()->toArray());
 
         if($this->selectedCategory == 1){
             $this->allType = PartType::orderBy('name')->get();
@@ -107,12 +104,18 @@ class DisplayElement extends Component
         $this->action = 0;
     }
 
+    public function updatedAction(){
+        if($this->action == 2){
+            $this->ownDetailsEdit = array_values(Detail::where('detail_ownerable_type', get_class($this->element))
+                ->where('detail_ownerable_id', $this->element_id)
+                ->whereNotNull('own_name')->get()->toArray());
+        }
+    }
+
     public function confirmDeleteElement(){
         $element = Element::findOrFail($this->element_id);
         $element->delete();
 
-        //session()->flash('message', 'Element został usunięty');
-        //return redirect()->route('vehicles.index');
         switch($this->object->object_type_id){
             case '1': 
                 return redirect()->route('vehicles.show', $this->object->id);
@@ -131,8 +134,6 @@ class DisplayElement extends Component
     public function addElementDetail()
     {
         $this->ownDetailsEdit[] = ['own_name' => '', 'value' => ''];
-        /*dd($this->ownDetailsEdit);
-        dd('hier');*/
     }
 
     public function removeElementDetail($index)
@@ -151,6 +152,21 @@ class DisplayElement extends Component
         if($this->ifMore == false){
             $this->action = 0;
         }
+
+        $count = Detail::where('detail_ownerable_id', $this->element_id)
+        ->whereNotNull('own_name')->count();        
+        if($count > 1){
+        $count_half = $count/2;
+        $ownDetails = Detail::where('detail_ownerable_id', $this->element_id)
+                ->whereNotNull('own_name')->get();
+        $this->ownDetails = $ownDetails->chunk($count_half)->toArray();
+        }else{
+        $ownDetails = Detail::where('detail_ownerable_id', $this->element_id)
+                ->whereNotNull('own_name')->get();
+        $this->ownDetails = $ownDetails->chunk(1)->toArray();
+        }
+        
+
         $this->element = Element::with(
             'detail_ownerable',
             'elements_typeable', 
@@ -164,69 +180,104 @@ class DisplayElement extends Component
         return view('livewire.display-element');
     }
 
-    protected $rules = [
-        'element_name' => 'required|string|min:3|max:100',
-        'selectedType' => 'required',
-        'nextDate' => 'required|date|after:today',
-        'nextWorkTimeValue' => 'nullable|numeric|gt:workTVV'
-    ];
-
-    public function messages()
-    {
-        return [
-            'element_name.required' => 'Nazwa jest wymagana',
-            'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
-            'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
-            'selectedType.required' => 'Kategoria jest wymagana',
-            'nextDate.required' => 'Data jest wymagana',
-            'nextDate.after' => 'Data musi być wartością z przyszłości',
-            'nextWorkTimeValue.gt' => 'Przebieg musi być większy niż aktualny'
-        ];
-    }
-
     public function updateEvent(){
         $this->action = 1;
     }
 
     public function cancelSave(){
+        $this->isSetEvent = $this->oldSetEvent;
         $this->action = 0;
     }
 
     public function saveAll(){
-        $this->validate();
+        if($this->isSetEvent){
+            $this->validate(
+                [
+                    'element_name' => 'required|string|min:3|max:100',
+                    'selectedType' => 'required',
+                    'nextDate' => 'required|date|after:today',
+                    'nextWorkTimeValue' => 'nullable|numeric|gt:workTVV'
+                ],
+                [
+                    'element_name.required' => 'Nazwa jest wymagana',
+                    'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
+                    'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
+                    'selectedType.required' => 'Kategoria jest wymagana',
+                    'nextDate.required' => 'Data jest wymagana',
+                    'nextDate.after' => 'Data musi być wartością z przyszłości',
+                    'nextWorkTimeValue.gt' => 'Przebieg musi być większy niż aktualny'
+                ]
+            );
+        }else{
+            $this->validate(
+                [
+                    'element_name' => 'required|string|min:3|max:100',
+                    'selectedType' => 'required',
+                ],
+                [
+                    'element_name.required' => 'Nazwa jest wymagana',
+                    'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
+                    'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
+                    'selectedType.required' => 'Kategoria jest wymagana',
+                ]
+            );
+        }
         $user = Auth::user()->id;
+        DB::beginTransaction();
+        try{
+            $element = Element::findOrFail($this->element_id);
+            $element->name = ucfirst(trim($this->element_name));
+            $element->elements_typeable_id = $this->selectedType;
+            $element->save();
 
+            $detail = new Detail;
 
-        $element = Element::findOrFail($this->element_id);
-        $element->name = ucfirst(trim($this->element_name));
-        $element->elements_typeable_id = $this->selectedType;
-        $element->save();
+            $detailToDelete = Detail::where('detail_ownerable_type', get_class($element))
+                        ->where('detail_ownerable_id', $element->id)            
+                        ->forceDelete();
 
-        $detail = new Detail;
-
-        $detailToDelete = Detail::where('detail_ownerable_type', get_class($element))
-                    ->where('detail_ownerable_id', $element->id)            
-                    ->forceDelete();
-
-        if($this->ownDetailsEdit != null){
-            foreach($this->ownDetailsEdit as $detail){
-                if($detail['own_name'] != null && $detail['value'] != null){
-                    $new_detail = new Detail;
-                    $new_detail->detail_ownerable_type = get_class($element);
-                    $new_detail->detail_ownerable_id = $element->id;
-                    $new_detail->own_name = ucfirst(trim($detail['own_name']));
-                    $new_detail->value = trim($detail['value']);
-                    $new_detail->save();
+            if($this->ownDetailsEdit != null){
+                foreach($this->ownDetailsEdit as $detail){
+                    if($detail['own_name'] != null && $detail['value'] != null){
+                        $new_detail = new Detail;
+                        $new_detail->detail_ownerable_type = get_class($element);
+                        $new_detail->detail_ownerable_id = $element->id;
+                        $new_detail->own_name = ucfirst(trim($detail['own_name']));
+                        $new_detail->value = trim($detail['value']);
+                        $new_detail->save();
+                    }
                 }
             }
-        }
 
-        $event = Event::where('element_id', $this->element_id)->where('events_type_id', 2)->first();
-        $event->expired_date = $this->nextDate;
-        if($this->nextWorkTimeValue != null){
-            $event->work_time_value = $this->nextWorkTimeValue;
+            if($this->oldSetEvent == $this->isSetEvent){
+                $event = Event::where('element_id', $this->element_id)->where('events_type_id', 2)->first();
+                $event->expired_date = $this->nextDate;
+                if($this->nextWorkTimeValue != null){
+                    $event->work_time_value = $this->nextWorkTimeValue;
+                }
+                $event->save();
+            }elseif($this->oldSetEvent==false && $this->isSetEvent==true){
+                $event = new Event;
+                $event->element_id = $element->id;
+                $event->events_type_id = 2;
+                $event->expired_date = $this->nextDate;
+                if($this->nextWorkTimeValue != null){
+                    $event->work_time_value = $this->nextWorkTimeValue;
+                }
+                $event->save();
+            }elseif($this->oldSetEvent==true && $this->isSetEvent==false){
+                $event = Event::where('element_id', $this->element_id)->where('events_type_id', 2)->first();
+                $event->delete();
+            }
+            
+            DB::commit();
+            $this->nextDate = '';
+            $this->nextWorkTimeValue = '';
+            $this->oldSetEvent =$this->isSetEvent;
+        }catch (\Exception $ex) {
+            DB::rollback();
         }
-        $event->save();
+        
         $this->action = 0;
     }
 
@@ -236,6 +287,7 @@ class DisplayElement extends Component
 
 
     public function storeNewEvent(){
+
         $this->validate([
             'doneDate' => 'required|date|before_or_equal:today',
             'doneWorkTimeValue' => 'nullable|numeric|gte:workTVV',
@@ -268,7 +320,9 @@ class DisplayElement extends Component
         }
         $new_event->save();
 
-
+        if($this->doneWorkTimeValue != null){
+            $this->emit('staffDirectoryRefresh');
+        }
 
 
 

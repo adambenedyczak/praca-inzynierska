@@ -19,7 +19,8 @@ class CreateNotificationsTable extends Migration
             $table->foreign('events_id')->references('id')->on('events');
             $table->integer('elements_category_id')->unsigned();
             $table->foreign('elements_category_id')->references('id')->on('elements_category');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->date('send')->nullable();
             $table->date('next_send')->nullable();
             $table->integer('work_time_value')->nullable();

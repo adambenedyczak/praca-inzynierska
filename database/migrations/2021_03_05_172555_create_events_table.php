@@ -24,7 +24,6 @@ class CreateEventsTable extends Migration
             $table->integer('work_time_value')->nullable();
             $table->integer('done_work_time_value')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -18,7 +18,8 @@ class ObjectDetailsTypeSeeder extends Seeder
             1 => 'Marka',
             2 => 'Model',
             3 => 'Tablica rejestracyjna',
-            4 => 'VIN/SN',
+            4 => 'VIN/Numer seryjny',
+            5 => 'Rok produkcji',
         ];
 
         foreach ($elementy as $key => $element){

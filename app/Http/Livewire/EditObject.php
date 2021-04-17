@@ -12,27 +12,43 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
-class AddNewObject extends Component
+class EditObject extends Component
 {
+    public $object_id;
+    public $object;
     public $selectedObjectType = 1;
     public $allWorkTimeUnit = [];
     public $selectedWorkTimeUnit;
     public $defaultWorkTimeUnit = 1;
 
-    public $object_name = '';
+    public $object_name;
     public $addDetails = [];
     public $addOwnDetails = [];
     public $allDetailsType = [];
 
     public $workTimeValue;
 
-    public function mount(){
+    public function mount($id){
+        $this->object_id = $id;
+        $this->object = ObjectModel::where('id', $this->object_id)
+                            ->where('user_id', Auth::id())->first();
+        if($this->object == null){
+            return redirect()->route('home');
+        }
+        $this->object_name = $this->object->name;
+        $this->selectedWorkTimeUnit = $this->object->work_time_unit_id;
         $this->allWorkTimeUnit = WorkTimeUnit::all();
         $this->allDetailsType = ObjectDetailType::orderBy('name')->get();
-        $this->addDetails = [
-            ['detail_type_id' => '', 'value' => '']
-        ];
-        $this->selectedWorkTimeUnit = 2;
+
+        $this->addDetails = array_values(Detail::where('detail_ownerable_type', get_class($this->object))
+                ->where('detail_ownerable_id', $this->object_id)
+                ->whereNull('own_name')->get()->toArray());
+        
+        $this->addOwnDetails = array_values(Detail::where('detail_ownerable_type', get_class($this->object))
+                ->where('detail_ownerable_id', $this->object_id)
+                ->whereNotNull('own_name')->get()->toArray());
+        //dd($this->addDetails, $this->addOwnDetails);
+
     }
     
     public function updatedSelectedObjectType(){
@@ -71,19 +87,9 @@ class AddNewObject extends Component
         $this->addOwnDetails = array_values($this->addOwnDetails);
     }
 
-
-
-    public function render()
-    {
-        info($this->addDetails);
-        return view('livewire.add-new-object')
-                    ->extends('layouts.app');
-    }
-
     protected $rules = [
         'object_name' => 'required|string|min:5|max:100',
         'selectedWorkTimeUnit' => 'required',
-        'workTimeValue' => 'nullable|numeric|gt:0'
     ];
 
     public function updated($object_name){
@@ -97,39 +103,32 @@ class AddNewObject extends Component
             'object_name.min' => 'Nazwa musi mieć minimum :min znaków',
             'object_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
             'selectedWorkTimeUnit.required' => 'Jednostka czasu pracy jest wymagana',
-            'workTimeValue.gt' => 'Przebieg musi być wartością dodatnią',
         ];
     }
 
     public function saveAll(){
         $this->validate();
         
-        $obiekt = new ObjectModel;            
+        $obiekt = ObjectModel::find($this->object_id);            
         DB::beginTransaction();
         try{
-            $user = Auth::user()->id;
             $obiekt->name = ucfirst(trim($this->object_name));
-            $obiekt->object_type_id = $this->selectedObjectType;
-            $obiekt->user_id = $user;
             $obiekt->work_time_unit_id = $this->selectedWorkTimeUnit;
             $obiekt->save();
 
-            if($this->workTimeValue != null){
-                $przebieg = new WorkTimeHistory;
-                $przebieg->object_model_id = $obiekt->id;
-                $przebieg->value = $this->workTimeValue;
-                $przebieg->save();
-            }
+            $detailToDelete = Detail::where('detail_ownerable_type', get_class($this->object))
+                        ->where('detail_ownerable_id', $this->object_id)            
+                        ->delete();
 
             $OBT = new ObjectDetailType;
 
             foreach($this->addDetails as $detail){
-                if($detail['detail_type_id'] != null && $detail['value'] != null){
+                if($detail['detail_typeable_id'] != null && $detail['value'] != null){
                     $new_detail = new Detail;
                     $new_detail->detail_ownerable_type = get_class($obiekt);
                     $new_detail->detail_ownerable_id = $obiekt->id;
                     $new_detail->detail_typeable_type = get_class($OBT);
-                    $new_detail->detail_typeable_id = trim($detail['detail_type_id']);
+                    $new_detail->detail_typeable_id = trim($detail['detail_typeable_id']);
                     $new_detail->value = $detail['value'];
                     $new_detail->save();
                 }            
@@ -167,5 +166,11 @@ class AddNewObject extends Component
                 break;
         }
 
+    }
+
+
+    public function render()
+    {
+        return view('livewire.edit-object')->extends('layouts.app');
     }
 }

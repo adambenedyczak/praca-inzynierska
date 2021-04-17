@@ -17,11 +17,12 @@ class CreateMessagesContentTable extends Migration
             $table->bigIncrements('id');
             $table->integer('object_id');
             $table->string('object_name', 100);
-            $table->string('object_type', 100);
+            $table->integer('object_type_id');
             $table->integer('element_category_id');
             $table->string('element_category_name', 100);
             $table->string('element_type_name', 100);
             $table->date('element_expired_date');
+            $table->integer('element_expired_time_value')->nullable();
             $table->integer('sent_messages_id')->unsigned();
             $table->foreign('sent_messages_id')->references('id')->on('sent_messages');
             $table->timestamps();

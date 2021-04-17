@@ -72,6 +72,15 @@ class RegisterController extends Controller
 
         $user->assignRole('user');
 
+        $email = EmailAdress::create([
+            'email' => $data['email'],
+            'user_id' => $user->id,
+        ]);
+
+        $notification_rules = NotificationRules::create([
+            'user_id' => $user->id,
+        ]);
+
         return $user;
     }
 }

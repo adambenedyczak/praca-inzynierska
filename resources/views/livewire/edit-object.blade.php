@@ -1,12 +1,14 @@
 <div>
-    <div class="row justify-content-center m-2">
+    @livewire('mini-nav-bar', ['tmp' => 0])
+
+    <div class="row justify-content-center mt-md-5 mt-3 m-2">
         <div class="col-xl-8 col-md-10 p-0">
             <div class="card border-primary " >
                 <div class="card-body">                   
                     <div class="container-xl py-3">
                         <div class="row">
                             <div class="col-9">
-                                <h4 class="card-title mb-3 mt-2">{{ __('Nowy') }}</h4>
+                                <h4 class="card-title mb-3 mt-2">Edycja {{$object_name}}</h4>
                             </div>
                             <div class="col-3 float-right">
                                 <a href="{{ url()->previous() }}" class="btn close " aria-label="Close">
@@ -16,42 +18,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="lead">Wybierz, co chcesz dodać</p>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-4 text-center my-1">
-                                @if ($selectedObjectType == 1)
-                                    <button wire:click="$set('selectedObjectType', 1)" type="button" class="btn btn-primary btn-block pt-2" >
-                                @else
-                                    <button wire:click="$set('selectedObjectType', 1)" type="button" class="btn btn-outline-primary btn-block pt-2" >
-                                @endif
-                                        <h5>Pojazd</h5>
-                                    </button>                        
-                            </div>
-                            <div class="col-sm-4 text-center my-1">
-                                @if ($selectedObjectType == 2)
-                                    <button wire:click="$set('selectedObjectType', 2)" type="button" class="btn btn-primary btn-block pt-2">
-                                @else
-                                    <button wire:click="$set('selectedObjectType', 2)" type="button" class="btn btn-outline-primary btn-block pt-2" >
-                                @endif
-                                        <h5>Przyczepa</h5>
-                                    </button>  
-                            </div>
-                            <div class="col-sm-4 text-center my-1">
-                                @if ($selectedObjectType == 3)
-                                    <button wire:click="$set('selectedObjectType', 3)" type="button" class="btn btn-primary btn-block pt-2" >
-                                @else
-                                    <button wire:click="$set('selectedObjectType', 3)" type="button" class="btn btn-outline-primary btn-block pt-2" >
-                                @endif
-                                        <h5>Maszyna</h5>
-                                    </button>  
-                            </div>
-                        </div>
-                        <div class="form-group form-floating">
-                            <div class="form-floating">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
                                 <label for="floatName">{{ __('object.vehicle.create.name') }}</label> 
                                 <input id="floatName" type="text" name="object_name" class="form-control"
                                     value="{{ old('object_name') }}" required wire:model="object_name" placeholder="wprowadź własną nazwę">                               
@@ -62,7 +30,7 @@
                                 </small>
                             @enderror
 
-                            <div class="form-floating mt-3">
+                            <div class="form-group col-md-6">
                                 <label for="unit">{{ __('Jednostka czasu pracy') }}</label>
                                 <select name="object_unit"
                                         wire:model.lazy="selectedWorkTimeUnit"
@@ -79,34 +47,21 @@
                                     {{ $message }}
                                 </small>
                             @enderror
-
-                            @if($selectedWorkTimeUnit > 1)
-                                <div class="form-floating mt-3">
-                                    <label for="timeValue">{{ __('Aktualny przebieg') }}</label> 
-                                    <input id="timeValue" type="number" name="work_time_value" class="form-control" min="0" step="1"
-                                        value="{{ old('workTimeValue') }}" required wire:model="workTimeValue" placeholder="wprowadź aktualny przebieg">                               
-                                </div>
-                                @error('workTimeValue') 
-                                    <small class="form-text text-danger">
-                                        {{ $message }}
-                                    </small>
-                                @enderror
-                            @endif
                         </div>
                         <div>
                             <hr/>
                         </div>
                         <div class="row mt-4">
                             <div class="col">
-                                <p class="lead">Dodaj szczegóły</p>
+                                <p class="lead">Szczegóły</p>
                             </div>
                         </div>
                         <div class="container m-0 p-0">
                             @foreach ($addDetails as $index => $addDetail)
                             <div class="row py-1">
                                 <div class="col-sm-4 my-1">
-                                    <select name="addDetails[{{$index}}][detail_type_id]"
-                                            wire:model.lazy="addDetails.{{$index}}.detail_type_id"
+                                    <select name="addDetails[{{$index}}][detail_typeable_id]"
+                                            wire:model.lazy="addDetails.{{$index}}.detail_typeable_id"
                                             class="form-control" >
                                         <option value="">{{ __('object.vehicle.create.choose_type') }}</option>
                                         @foreach ($allDetailsType as $detailType)
@@ -117,11 +72,11 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6 my-1">
-                                <input type="text"
-                                    name="addDetails[{{$index}}][value]"
-                                    class="form-control"
-                                    placeholder="{{ __('object.vehicle.create.put_value') }}"
-                                    wire:model="addDetails.{{$index}}.value" />
+                                    <input type="text"
+                                        name="addDetails[{{$index}}][value]"
+                                        class="form-control"
+                                        placeholder="{{ __('object.vehicle.create.put_value') }}"
+                                        wire:model="addDetails.{{$index}}.value" />
                                 </div>
                                 
                                 <div class="col-sm-2 justify-content-end my-1">
@@ -142,7 +97,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col">
-                                <p class="lead">Dodaj własne szczegóły</p>
+                                <p class="lead">Własne szczegóły</p>
                             </div>
                         </div>
                         <div class="container m-0 p-0">
@@ -179,7 +134,7 @@
                         <div class="row mt-5">
                             <div class="col-md-6 my-1">
                                 <button wire:click="saveAll" type="button" class="btn btn-success btn-block pt-2">
-                                    <h5>Zapisz</h5>
+                                    <h5>Zapisz zmiany</h5>
                                 </button>
                             </div>
                             <div class="col-md-6 my-1">

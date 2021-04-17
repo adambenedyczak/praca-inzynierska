@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-3">
             @if( $event)
-                {{ $event->expired_date }} 
+                {{ date("d-m-Y", strtotime($event->expired_date)) }} 
                 @if( $event->work_time_value  )
                     <div class="text-primary">
                     {{ number_format($event->work_time_value,0,""," ") }} {{ $object->work_time_unit->short }}
@@ -88,44 +88,54 @@
             </div>
         @endif
     </div>
-    @if($action == 2)
+    @if($action == 2 )
     <div class="row mt-2">
         <div class="col-12">
-            <span class="lead"> Termin ważności/następnej wymiany</span>
+            <div class="custom-control custom-switch">
+                <input wire:model="isSetEvent" type="checkbox" class="custom-control-input" id="customSwitch1" >
+                <label class="custom-control-label pl-2" for="customSwitch1">Edytuj zdarzenie</label>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-floating my-1">
-                <label for="nextDate">{{ __('Data') }}</label>
-                <input type="date" name="nextDate" min="{{$tomorrow}}"
-                        wire:model="nextDate"
-                        class="form-control" required >
-                </input>
+    @if($isSetEvent == true )
+        <div class="row">
+            <div class="col-12">
+                <span class="lead"> Termin ważności/następnej wymiany</span>
             </div>
-            @error('nextDate') 
-                <small class="form-text text-danger">
-                    {{ $message }}
-                </small>
-            @enderror
         </div>
-        @if($object->work_time_unit_id > 1)
-        <div class="col-md-6 my-1">
-            <div class="form-floading">
-                <label for="nextWorkTimeValue">{{ __('Przebieg') }}</label> 
-                <input id="nextWorkTimeValue" type="number" name="nextWorkTimeValue" class="form-control"
-                    value="{{ old('element_name') }}" required 
-                    wire:model="nextWorkTimeValue" placeholder="wprowadź przebieg"
-                    min="{{$workTimeValue}}" step="1">                               
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-floating my-1">
+                    <label for="nextDate">{{ __('Data') }}</label>
+                    <input type="date" name="nextDate" min="{{$tomorrow}}"
+                            wire:model="nextDate"
+                            class="form-control" required >
+                    </input>
+                </div>
+                @error('nextDate') 
+                    <small class="form-text text-danger">
+                        {{ $message }}
+                    </small>
+                @enderror
             </div>
-            @error('nextWorkTimeValue') 
-                <small class="form-text text-danger">
-                    {{ $message }}
-                </small>
-            @enderror   
+            @if($object->work_time_unit_id > 1)
+            <div class="col-md-6 my-1">
+                <div class="form-floading">
+                    <label for="nextWorkTimeValue">{{ __('Przebieg') }}</label> 
+                    <input id="nextWorkTimeValue" type="number" name="nextWorkTimeValue" class="form-control"
+                        value="{{ old('element_name') }}" required 
+                        wire:model="nextWorkTimeValue" placeholder="wprowadź przebieg"
+                        min="{{$workTimeValue}}" step="1">                               
+                </div>
+                @error('nextWorkTimeValue') 
+                    <small class="form-text text-danger">
+                        {{ $message }}
+                    </small>
+                @enderror   
+            </div>
+            @endif
         </div>
-        @endif
-    </div>
+    @endif
     <div>
         <hr/>
     </div>
@@ -175,7 +185,7 @@
                         wire:click.prevent="addElementDetail">Dodaj szczegół</button>
                 </div>
                 <div class="col-md-8 my-2">
-                    <div class="btn-group btn-block" role="group" id="3">
+                    <div class="btn-group btn-block" role="group" id="ab3">
                         <button wire:click="cancelSave" type="button" class="btn btn-outline-primary">Anuluj</button>
                         <button wire:click="saveAll" type="button" class="btn btn-success">Zapisz</button>
                     </div>
@@ -187,7 +197,11 @@
             <div class="col-12 col-md-6">
                 @if($action == 0)
                 <div class="btn-group btn-block" role="group" id="1">
-                    <button wire:click="updateEvent" type="button" class="btn btn-success">Aktualizuj</button>
+                    @if($isSetEvent)
+                        <button wire:click="updateEvent" type="button" class="btn btn-success">Aktualizuj</button>
+                    @else
+                        <button wire:click="updateEvent" type="button" class="btn btn-success" disabled>Aktualizuj</button>
+                    @endif
                     <button wire:click="$set('action', 2)"type="button" class="btn btn-outline-primary">Edytuj</button>
                     <button wire:click="setDelete" type="button" class="btn btn-outline-danger">Usuń</button>
                 </div>

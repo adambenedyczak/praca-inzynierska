@@ -13,6 +13,7 @@ use App\Models\InsuranceType;
 use Illuminate\Support\Carbon;
 use App\Models\ElementCategory;
 use App\Models\WorkTimeHistory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AddNewElement extends Component
@@ -33,6 +34,8 @@ class AddNewElement extends Component
 
     public $nextDate;
     public $nextWorkTimeValue;
+
+    public $addEvent = false;
 
     public $tomorrow;
 
@@ -82,67 +85,94 @@ class AddNewElement extends Component
         return view('livewire.add-new-element');
     }
 
-    protected $rules = [
-        'element_name' => 'required|string|min:3|max:100',
-        'selectedType' => 'required',
-        'nextDate' => 'required|date|after:today',
-        'nextWorkTimeValue' => 'nullable|numeric|gt:workTVV'
-    ];
-
-    public function messages()
-    {
-        return [
-            'element_name.required' => 'Nazwa jest wymagana',
-            'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
-            'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
-            'selectedType.required' => 'Kategoria jest wymagana',
-            'nextDate.required' => 'Data jest wymagana',
-            'nextDate.after' => 'Data musi być wartością z przyszłości',
-            'nextWorkTimeValue.gt' => 'Przebieg musi być większy niż aktualny'
-        ];
-    }
-
     public function saveAll(){
-        $this->validate();
+        if($this->addEvent){
+            $this->validate(
+                [
+                    'element_name' => 'required|string|min:3|max:100',
+                    'selectedType' => 'required',
+                    'nextDate' => 'required|date|after:today',
+                    'nextWorkTimeValue' => 'nullable|numeric|gt:workTVV'
+                ],
+                [
+                    'element_name.required' => 'Nazwa jest wymagana',
+                    'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
+                    'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
+                    'selectedType.required' => 'Kategoria jest wymagana',
+                    'nextDate.required' => 'Data jest wymagana',
+                    'nextDate.after' => 'Data musi być wartością z przyszłości',
+                    'nextWorkTimeValue.gt' => 'Przebieg musi być większy niż aktualny'
+                ]
+            );
+        }else{
+            $this->validate(
+                [
+                    'element_name' => 'required|string|min:3|max:100',
+                    'selectedType' => 'required',
+                ],
+                [
+                    'element_name.required' => 'Nazwa jest wymagana',
+                    'element_name.min' => 'Nazwa musi mieć minimum :min znaków',
+                    'element_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
+                    'selectedType.required' => 'Kategoria jest wymagana',
+                ]
+            );
+        }
+
+
         $user = Auth::user()->id;
 
-        $element = new Element;
-        $element->name = ucfirst(trim($this->element_name));
-        $element->object_model_id = $this->object_id;
-        if($this->selectedCategory == 1){
-            $ELT = new PartType;
-        }elseif($this->selectedCategory == 2){
-            $ELT = new OverviewType;
-        }elseif($this->selectedCategory == 3){
-            $ELT = new InsuranceType;
-        }
-        $element->elements_category_id = $this->selectedCategory;
-        $element->elements_typeable_type = get_class($ELT);
-        $element->elements_typeable_id = $this->selectedType;
-        $element->save();
+        DB::beginTransaction();
+        try{
+            $element = new Element;
+            $element->name = ucfirst(trim($this->element_name));
+            $element->object_model_id = $this->object_id;
+            if($this->selectedCategory == 1){
+                $ELT = new PartType;
+            }elseif($this->selectedCategory == 2){
+                $ELT = new OverviewType;
+            }elseif($this->selectedCategory == 3){
+                $ELT = new InsuranceType;
+            }
+            $element->elements_category_id = $this->selectedCategory;
+            $element->elements_typeable_type = get_class($ELT);
+            $element->elements_typeable_id = $this->selectedType;
+            $element->save();
 
 
-        if($this->addOwnDetails != null){
-            foreach($this->addOwnDetails as $detail){
-                if($detail['own_name'] != null && $detail['value'] != null){
-                    $new_detail = new Detail;
-                    $new_detail->detail_ownerable_type = get_class($element);
-                    $new_detail->detail_ownerable_id = $element->id;
-                    $new_detail->own_name = ucfirst(trim($detail['own_name']));
-                    $new_detail->value = trim($detail['value']);
-                    $new_detail->save();
+            if($this->addOwnDetails != null){
+                foreach($this->addOwnDetails as $detail){
+                    if($detail['own_name'] != null && $detail['value'] != null){
+                        $new_detail = new Detail;
+                        $new_detail->detail_ownerable_type = get_class($element);
+                        $new_detail->detail_ownerable_id = $element->id;
+                        $new_detail->own_name = ucfirst(trim($detail['own_name']));
+                        $new_detail->value = trim($detail['value']);
+                        $new_detail->save();
+                    }
                 }
             }
-        }
+            
+            if($this->addEvent){
+                $event = new Event;
+                $event->element_id = $element->id;
+                $event->events_type_id = 2;
+                $event->expired_date = $this->nextDate;
+                if($this->nextWorkTimeValue != null){
+                    $event->work_time_value = $this->nextWorkTimeValue;
+                }
+                $event->save();
+            }
 
-        $event = new Event;
-        $event->element_id = $element->id;
-        $event->events_type_id = 2;
-        $event->expired_date = $this->nextDate;
-        if($this->nextWorkTimeValue != null){
-            $event->work_time_value = $this->nextWorkTimeValue;
+            DB::commit();
+        }catch (\Exception $ex) {
+            DB::rollback();
         }
-        $event->save();
+        $this->element_name = '';
+        $this->selectedCategory = '';
+        $this->selectedType = '';
+        $this->nextDate = '';
+        $this->nextWorkTimeValue = '';
 
         switch($this->object->object_type_id){
             case '1': 
@@ -175,5 +205,10 @@ class AddNewElement extends Component
                 return redirect()->route('');
                 break;
         }
+    }
+
+    public function switchShow(){
+        dd('odebrałem!');
+        $this->ifShow = true;
     }
 }

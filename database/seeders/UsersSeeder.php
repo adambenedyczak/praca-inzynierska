@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\EmailAdress;
 use Illuminate\Database\Seeder;
+use App\Models\NotificationRules;
 use Spatie\Permission\Models\Role;
 
 class UsersSeeder extends Seeder
@@ -22,5 +24,14 @@ class UsersSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
+
+        $email = EmailAdress::create([
+            'email' => 'admin@admin',
+            'user_id' => 1,
+        ]);
+
+        $notification_rules = NotificationRules::create([
+            'user_id' => 1,
+        ]);
     }
 }

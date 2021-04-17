@@ -40,6 +40,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('create', '\App\Http\Livewire\AddNewObject')
             ->name('create')
             ->middleware(['permission:objects.crud']);
+        Route::get('{id}', '\App\Http\Livewire\EditObject')
+            ->name('edit')
+            ->where('id', '[0-9]+')
+            ->middleware(['permission:objects.crud']);
     });
 
     Route::name('vehicles.')->prefix('vehicles')->group(function(){
@@ -70,6 +74,16 @@ Route::middleware(['auth'])->group(function() {
             ->name('show')
             ->where('id', '[0-9]+')
             ->middleware(['permission:objects.show']);
+    });
+
+    Route::name('notifications.')->prefix('notifications')->group(function(){
+        Route::get('settings', 'App\Http\Livewire\NotificationSettings')
+            ->name('settings')
+            ->middleware(['permission:objects.show']);
+        /*Route::get('{id}', '\App\Http\Controllers\MachineController@show')
+            ->name('show')
+            ->where('id', '[0-9]+')
+            ->middleware(['permission:objects.show']);*/
     });
 
 

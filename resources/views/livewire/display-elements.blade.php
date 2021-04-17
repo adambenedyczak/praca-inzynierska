@@ -15,7 +15,11 @@
                             Aktualny przebieg
                         </div>
                         <div class="col-md-4 my-1">
-                            <input id="currentWorkTimeValue" wire:model="currentWorkTimeValue" type="number" class="form-control" min="{{ $oldWorkTimeValue }}" step="1">  
+                            <input id="currentWorkTimeValue" 
+                                wire:model="currentWorkTimeValue" 
+                                wire:keydown.enter="saveNewWorkTimeHistory"
+                                type="number" class="form-control" 
+                                min="{{ $oldWorkTimeValue }}" step="1">  
                             @error('currentWorkTimeValue') 
                                 <small class="form-text text-danger">
                                     {{ $message }}
@@ -25,7 +29,7 @@
                         <div class="col-md-5 my-1">
                             <div class="btn-group btn-block" role="group" id="20">
                                 <button wire:click="$set('ifAddWorkTimeHistory', false)" type="button" class="btn btn-outline-primary">Anuluj</button>
-                                <button wire:click="storeNewWorkTimeHistory" type="button" class="btn btn-success">Zapisz</button>
+                                <button wire:click="saveNewWorkTimeHistory" type="button" class="btn btn-success">Zapisz</button>
                             </div>
                         </div>
                     </div>
@@ -33,7 +37,7 @@
             </div>
         @endif
         <div class="col-md-4 my-1">
-            <button wire:click="addNewElement" class="btn btn-primary btn-block" type="button">
+            <button wire:click="$set('ifAddElement', true)" class="btn btn-primary btn-block" type="button">
                 Dodaj informacje
             </button>
         </div>
@@ -43,45 +47,86 @@
         @livewire('add-new-element', ['object_id' => $object->id])    
     </div>
     @endif
-    @if (count($elements) > 0)
-        <div class="accordion mt-3" id="accordionExample">
-         
-        @foreach ($elements as $elementsCategory)         
+        <div class="accordion mt-3" id="accordionExample">  
+        @if (count($parts) > 0)      
             <div class="card">
-                <div class="card-header p-1" id="{{$loop->index}}">
+                <div class="card-header p-1" id="1">
                     <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{$loop->index}}" aria-expanded="false" aria-controls="{{$loop->index}}">
-                        @if ($loop->index == 0)
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="1">
                         <img src="{{ asset('storage/svg/part.svg') }}" width="30" height="30" alt="" class="float-left mr-3">
                             Części
-                        @elseif ($loop->index == 1)
-                        <img src="{{ asset('storage/svg/overview.svg') }}" width="30" height="30" alt="" class="float-left mr-3">  
-                            Przeglądy
-                        @elseif ($loop->index == 2)
-                        <img src="{{ asset('storage/svg/insurance.svg') }}" width="30" height="30" alt="" class="float-left mr-3">        
-                            Ubezpieczenia
-                        @endif
-
                         </button>
                     </h2>
                 </div>
-                <div id="collapse{{$loop->index}}" class="collapse hide" aria-labelledby="{{$loop->index}}" data-parent="#accordionExample">
+                <div id="collapse1" class="collapse hide" aria-labelledby="1" data-parent="#accordionExample">
                     <div class="card-body p-2">
                         <div class="container px-2">
-                        @foreach ($elementsCategory as $elements)
+                        @foreach ($parts as $part)  
                             @if(!$loop->first)  
                             <div>
                                 <hr class="m-0" />
                             </div>
                             @endif                          
-                            @livewire('display-element', ['element_id' => $elements->id])                                                 
+                            @livewire('display-element', ['element_id' => $part->id])                                                 
                         @endforeach
                         </div>                  
                     </div>
                 </div>
             </div>        
-        @endforeach
+        @endif
+        @if (count($overviews) > 0)      
+            <div class="card">
+                <div class="card-header p-1" id="2">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="2">
+                        <img src="{{ asset('storage/svg/overview.svg') }}" width="30" height="30" alt="" class="float-left mr-3">
+                            Przeglądy
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse2" class="collapse hide" aria-labelledby="2" data-parent="#accordionExample">
+                    <div class="card-body p-2">
+                        <div class="container px-2">
+                        @foreach ($overviews as $overview)  
+                            @if(!$loop->first)  
+                            <div>
+                                <hr class="m-0" />
+                            </div>
+                            @endif                          
+                            @livewire('display-element', ['element_id' => $overview->id])                                                 
+                        @endforeach
+                        </div>                  
+                    </div>
+                </div>
+            </div>        
+        @endif
+        @if (count($insurances) > 0)      
+            <div class="card">
+                <div class="card-header p-1" id="3">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="3">
+                        <img src="{{ asset('storage/svg/insurance.svg') }}" width="30" height="30" alt="" class="float-left mr-3">
+                            Ubezpieczenia
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse3" class="collapse hide" aria-labelledby="3" data-parent="#accordionExample">
+                    <div class="card-body p-2">
+                        <div class="container px-2">
+                        @foreach ($insurances as $insurance)  
+                            @if(!$loop->first)  
+                            <div>
+                                <hr class="m-0" />
+                            </div>
+                            @endif                          
+                            @livewire('display-element', ['element_id' => $insurance->id])                                                 
+                        @endforeach
+                        </div>                  
+                    </div>
+                </div>
+            </div>        
+        @endif
         </div>
-    @endif
         
 </div>
+

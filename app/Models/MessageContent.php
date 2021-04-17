@@ -16,7 +16,7 @@ class MessageContent extends Model
     protected $fillable = [
         'object_id',
         'object_name',
-        'object_type',
+        'object_type_id',
         'element_category_id',
         'element_category_name',
         'element_type_name',

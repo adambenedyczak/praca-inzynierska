@@ -15,5 +15,9 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   </script>
+  
 @endsection

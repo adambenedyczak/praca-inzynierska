@@ -28,30 +28,20 @@ class DisplayObject extends Component
         $this->fav = $this->object->favourite;
         $this->objectType = $this->object->object_type_id;
 
-        $this->parts = Element::/*with(
-                    'detail_ownerable',
-                    'elements_typeable', 
-                    'element_category')
-                    ->*/where('object_model_id', $this->object_id)
+        $this->parts = Element::where('object_model_id', $this->object_id)
                     ->where('elements_category_id', '1')->count();
-        $this->overviews = Element::/*with(
-                    'detail_ownerable',
-                    'elements_typeable', 
-                    'element_category')
-                    ->*/where('object_model_id', $this->object_id)
+        $this->overviews = Element::where('object_model_id', $this->object_id)
                     ->where('elements_category_id', '2')->count();
-        $this->insurances = Element::/*with(
-                    'detail_ownerable',
-                    'elements_typeable', 
-                    'element_category')
-                    ->*/where('object_model_id', $this->object_id)
+        $this->insurances = Element::where('object_model_id', $this->object_id)
                     ->where('elements_category_id', '3')->count();
 
-        $this->details = Detail::where('detail_ownerable_id', $this->object_id)
+        $this->details = Detail::where('detail_ownerable_type', get_class($this->object))
+                    ->where('detail_ownerable_id', $this->object_id)
                     ->whereNull('own_name')
                     ->take(5)->get();
         
-        $this->ownDetails = Detail::where('detail_ownerable_id', $this->object_id)
+        $this->ownDetails = Detail::where('detail_ownerable_type', get_class($this->object))
+                    ->where('detail_ownerable_id', $this->object_id)
                     ->whereNotNull('own_name')
                     ->take(5)->get();
         $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first();
@@ -77,7 +67,17 @@ class DisplayObject extends Component
         $vehicle->delete();
 
         session()->flash('message', 'Pojazd został usunięty');
-        return redirect()->route('vehicles.index');
+        switch($this->objectType){
+            case '1': 
+                return redirect()->route('vehicles.index');
+                break;
+            case '2':
+                return redirect()->route('trailers.index');
+                break;
+            case '3':
+                return redirect()->route('machines.index');
+                break;
+        }
     }
 
     public function render()

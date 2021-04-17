@@ -71,7 +71,16 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
-                                <span class="lead"> Termin ważności/następnej wymiany</span>
+                                <div class="custom-control custom-switch">
+                                    <input wire:model="addEvent" type="checkbox" class="custom-control-input" id="customSwitch1" >
+                                    <label class="custom-control-label pl-2" for="customSwitch1">Dodaj zdarzenie</label>
+                                </div>
+                            </div>
+                        </div>
+                        @if($addEvent)
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="lead"> Termin ważności (następnej wymiany)</span>
                             </div>
                         </div>
                         <div class="row">
@@ -80,7 +89,9 @@
                                     <label for="nextDate">{{ __('Data') }}</label>
                                     <input type="date" name="nextDate" min="{{$tomorrow}}"
                                             wire:model="nextDate"
-                                            class="form-control" required >
+                                            class="form-control" required 
+                                            placeholder="dd-mm-rrrr"
+                                            pattern="">
                                     </input>
                                 </div>
                                 @error('nextDate') 
@@ -106,7 +117,7 @@
                             </div>
                             @endif
                         </div>
-                        
+                        @endif
                         <div>
                             <hr/>
                         </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 
-@livewire('mini-nav-bar', ['tmp' => 1])
+@livewire('mini-nav-bar', ['tmp' => 3])
 
 @if( count($machines) > 0)
     <div class="mt-md-5 mt-3">
