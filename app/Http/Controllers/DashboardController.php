@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\ObjectModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,12 @@ class DashboardController extends Controller
     public function index()
     {
         $favs = ObjectModel::where('user_id', Auth::id())->where('favourite', true)->get();
-        return view('dashboard', compact('favs'));
+        $user = User::where('id', Auth::id())->first();
+        if($user->email_verified_at == null){
+            $mustVerify = true;
+        }else{
+            $mustVerify = false;
+        }
+        return view('dashboard', compact('favs', 'mustVerify', 'user'));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::view('/test', 'test');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 
 Route::middleware(['auth'])->group(function() {
@@ -35,8 +40,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])
     ->name('');
 
+    Route::get('/email/verify', function () {
+        return view('auth.verify');
+    })->middleware('auth')->name('verification.notice');
 
-    Route::name('objects.')->prefix('objects')->group(function(){
+    Route::name('objects.')->prefix('objects')->middleware('verified')->group(function(){
         Route::get('create', '\App\Http\Livewire\AddNewObject')
             ->name('create')
             ->middleware(['permission:objects.crud']);
@@ -46,7 +54,7 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.crud']);
     });
 
-    Route::name('vehicles.')->prefix('vehicles')->group(function(){
+    Route::name('vehicles.')->prefix('vehicles')->middleware('verified')->group(function(){
         Route::get('', '\App\Http\Controllers\VehicleController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
@@ -56,7 +64,7 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.show']);
     });
 
-    Route::name('trailers.')->prefix('trailers')->group(function(){
+    Route::name('trailers.')->prefix('trailers')->middleware('verified')->group(function(){
         Route::get('', '\App\Http\Controllers\TrailerController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
@@ -66,7 +74,7 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.show']);
     });
 
-    Route::name('machines.')->prefix('machines')->group(function(){
+    Route::name('machines.')->prefix('machines')->middleware('verified')->group(function(){
         Route::get('', '\App\Http\Controllers\MachineController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
@@ -76,7 +84,7 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.show']);
     });
 
-    Route::name('notifications.')->prefix('notifications')->group(function(){
+    Route::name('notifications.')->prefix('notifications')->middleware('verified')->group(function(){
         Route::get('settings', 'App\Http\Livewire\NotificationSettings')
             ->name('settings')
             ->middleware(['permission:objects.show']);
