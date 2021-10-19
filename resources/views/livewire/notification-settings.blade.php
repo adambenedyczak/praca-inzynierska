@@ -26,7 +26,7 @@
                             <hr/>
                         </div>
                         <div class="row my-3">
-                            <div class="col-md-4">
+                            <div class="col-md-4 px-3">
                                 <div class="container">
                                     <div class="row my-2">
                                         <h6>Powiadomienia o częściach</h6>
@@ -48,10 +48,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($isEnabledNotificationPart == false)
+                                    <div class="row my-2 pr-4">
+                                        <div class="card bg-warning">
+                                            <div class="card-body p-2 m-0">
+                                                Wyłączono powiadomienia o częściach!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 px-3">
                                 <div class="container">
                                     <div class="row my-2">
                                         <h6>Powiadomienia o przeglądach</h6>
@@ -73,10 +82,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($isEnabledNotificationOverview == false)
+                                    <div class="row my-2 pr-4">
+                                        <div class="card bg-warning">
+                                            <div class="card-body p-2 m-0">
+                                                Wyłączono powiadomienia o przeglądach!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 px-3">
                                 <div class="container">
                                     <div class="row my-2">
                                         <h6>Powiadomienia o ubezpieczeniach</h6>
@@ -98,6 +116,15 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if($isEnabledNotificationInsurance == false)
+                                    <div class="row my-2 pr-4">
+                                        <div class="card bg-warning">
+                                            <div class="card-body p-2 m-0">
+                                                Wyłączono powiadomienia o ubezpieczeniach!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

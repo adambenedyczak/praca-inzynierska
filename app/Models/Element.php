@@ -29,16 +29,16 @@ class Element extends Model
     }
 
     public function element_category(){
-        return $this->belongsTo('\App\Models\ElementCategory');
+        return $this->belongsTo(ElementCategory::class, 'elements_category_id');
     }
 
     public function events(){
-        return $this->hasMany('\App\Models\Event');
+        return $this->hasMany(Event::class);
     }
     public function detail_ownerable(){
         return $this->morphMany(Detail::class, 'detail_ownerable');
     }
-    public function object(){
-        return $this->belongsTo('\App\Models\ObjectModel');
+    public function object_model(){
+        return $this->belongsTo(ObjectModel::class);
     }
 }

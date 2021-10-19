@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Observers\WorkTimeHistoriesObserver;
 
 use App\Models\ObjectModel;
 use Illuminate\Database\Eloquent\Model;

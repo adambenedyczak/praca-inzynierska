@@ -10,7 +10,7 @@
             <div class="col-xl-8 col-md-10">
                 <div class="jumbotron bg-primary text-white">
                     <h1 class="mb-4">Witaj, {{$user->name}}!</h1>
-                    <p class="lead">Dziękujemy za dołączenie do użytkowników {{ config('app.name', 'Laravel') }}. </br>Cieszymy się, że jesteś z nami!</p>
+                    <p class="lead">Dziękujemy za dołączenie do grona użytkowników {{ config('app.name', 'Laravel') }}. </br>Cieszymy się, że jesteś z nami!</p>
                     <hr class="my-4">
                     <p class="lead">Na podany przez Ciebie adres email został wysłany link weryfikacyjny. 
                     </br>Proszę, kliknij w niego aby korzystać w pełni z możliwości serwisu.

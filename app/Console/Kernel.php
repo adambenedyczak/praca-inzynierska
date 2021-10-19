@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\NotificationsScheduler::class,
     ];
 
     /**
@@ -24,7 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('notifications:scheduler')->everyMinute();
+                    /*->withoutOverlapping(2)
+                    ->weekdays()
+                    ->between('7:00', '22:00')
+                    ->everyMinute()
+                    ->timezone('Europe/Warsaw');*/
+
+                    //php artisan notifications:scheduler
     }
 
     /**

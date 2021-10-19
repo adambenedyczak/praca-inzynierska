@@ -26,14 +26,14 @@ class Notification extends Model
     ];
 
     public function element_category(){
-        return $this->belongsTo('\App\Models\ElementCategory');
+        return $this->belongsTo(ElementCategory::class);
     }
 
     public function event(){
-        return $this->belongsTo('\App\Models\Event');
+        return $this->belongsTo(Event::class, 'events_id');
     }
 
     public function user(){
-        return $this->belongsTo('\App\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

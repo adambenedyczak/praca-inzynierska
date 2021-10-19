@@ -4,9 +4,13 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Models\Event;
-use App\Observers\EventObserver;
+use App\Models\WorkTimeHistory;
 use App\Observers\UserObserver;
+use App\Observers\EventObserver;
+use App\Models\NotificationRules;
 use Illuminate\Auth\Events\Registered;
+use App\Observers\NotificationRulesObserver;
+use App\Observers\WorkTimeHistoriesObserver;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -32,5 +36,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Event::observe(EventObserver::class);
         User::observe(UserObserver::class);
+        NotificationRules::observe(NotificationRulesObserver::class);
+        WorkTimeHistory::observe(WorkTimeHistoriesObserver::class);
     }
 }

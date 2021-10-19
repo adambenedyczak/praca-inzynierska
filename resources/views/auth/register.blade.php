@@ -110,7 +110,7 @@
 
             <div>
                 <div>{{ __('auth.auth_account') }} </div>
-                <a href="{{ route('register') }}" class="btn btn-link pl-0 pt-0">{{ __('auth.auth_login_now') }}</a>
+                <a href="{{ route('login') }}" class="btn btn-link pl-0 pt-0">{{ __('auth.auth_login_now') }}</a>
             </div>
             
         </div>

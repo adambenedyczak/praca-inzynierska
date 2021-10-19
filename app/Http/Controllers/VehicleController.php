@@ -17,6 +17,7 @@ class VehicleController extends Controller
         $vehicles = ObjectModel::with('detail_ownerable')
                                 ->where('user_id', Auth::id())
                                 ->where('object_type_id','1')
+                                ->orderBy('name', 'ASC')
                                 ->get();
         return view('vehicles.index', compact('vehicles'));
     }

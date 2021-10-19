@@ -13,6 +13,7 @@ class MachineController extends Controller
         $machines = ObjectModel::with('detail_ownerable')
                                 ->where('user_id', Auth::id())
                                 ->where('object_type_id','3')
+                                ->orderBy('name', 'ASC')
                                 ->get();
         return view('machines.index', compact('machines'));
     }

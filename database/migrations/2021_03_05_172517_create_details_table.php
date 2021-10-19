@@ -20,6 +20,7 @@ class CreateDetailsTable extends Migration
             $table->string('own_name', 100)->nullable();
             $table->string('value', 100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

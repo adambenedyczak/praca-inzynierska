@@ -15,7 +15,7 @@ class CreateEmailAdressTable extends Migration
     {
         Schema::create('email_adress', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('email', 100)->unique();
+            $table->string('email', 100);
             $table->boolean('enable')->default('1');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

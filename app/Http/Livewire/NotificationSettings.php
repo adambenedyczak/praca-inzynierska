@@ -29,7 +29,6 @@ class NotificationSettings extends Component
     public function mount(){
 
         $this->notificationTimeList = [
-            ['time' => '-1', 'description' => 'brak'],
             ['time' => '0', 'description' => 'w dniu zdarzenia'],
             ['time' => '1', 'description' => '1 dzień wcześniej'],
             ['time' => '3', 'description' => '3 dni wczesniej'],

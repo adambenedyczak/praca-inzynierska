@@ -99,21 +99,21 @@
                             <div class="col-6 col-md-8">
                                 <div class="d-none d-sm-block">
                                     @if ($parts > 0)
-                                    <button type="button" class="btn btn-outline-primary float-left m-1">
+                                    <button type="button" class="btn @if(isset($events[1])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/part.svg')}}" width="20" height="20" alt="" class="float-left">
                                         <span class="badge badge-primary ml-1 mb">{{ $parts }}</span>
                                     </button>
                                     @endif
                                     @if ($overviews > 0)
-                                    <button type="button" class="btn btn-outline-primary float-left m-1">
+                                    <button type="button" class="btn @if(isset($events[2])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/overview.svg')}}" width="20" height="20" alt="" class="float-left">
                                         <span class="badge badge-primary ml-1 mb">{{ $overviews }}</span>
                                     </button>
                                     @endif
                                     @if ($insurances > 0)
-                                    <button type="button" class="btn btn-outline-primary float-left m-1">
+                                    <button type="button" class="btn @if(isset($events[3])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/insurance.svg')}}" width="20" height="20" alt="" class="float-left">
-                                        <span class="badge badge-primary ml-1 mb">{{ $parts }}</span>
+                                        <span class="badge badge-primary ml-1 mb">{{ $insurances }}</span>
                                     </button>
                                     @endif
                                 </div>

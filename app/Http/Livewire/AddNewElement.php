@@ -174,6 +174,8 @@ class AddNewElement extends Component
         $this->nextDate = '';
         $this->nextWorkTimeValue = '';
 
+        session()->flash('message', 'Element został dodany!');
+
         switch($this->object->object_type_id){
             case '1': 
                 return redirect()->route('vehicles.show', $this->object_id);

@@ -1,17 +1,19 @@
 <div>
-    <div class="row my-2">
+    <div class="row my-2 align-items-center">
         @if($action != 2)
-            <div class="col-md-2">
-                {{ $element->elements_typeable->name }}
-            </div>
-            <div class="col-md-4">
-                {{ $element->name }}
+            <div class="col-md-3">
+                <span class="lead">{{ $element->elements_typeable->name }}</span>
             </div>
             <div class="col-md-3">
+                <strong>{{ $element->name }}</strong>
+            </div>
+            <div class="col-md-3 pt-2 pt-md-0">
             @if( $event)
+                <span class="text-primary">
                 {{ date("d-m-Y", strtotime($event->expired_date)) }} 
+                </span>
                 @if( $event->work_time_value  )
-                    <div class="text-primary">
+                    <div class="text-muted">
                     {{ number_format($event->work_time_value,0,""," ") }} {{ $object->work_time_unit->short }}
                     </div>
                 @endif
@@ -20,7 +22,7 @@
             <div class="col-md-3">
                 <div class="float-right">
                     @if($ifMore == false)
-                    <button type="button" wire:click="$set('ifMore', true)" class="btn btn-outline-primary btn-block">
+                    <button type="button" wire:click="$set('ifMore', true)" class="btn @if($this->alert) btn-warning @endif btn-outline-primary btn-block">
                     Więcej
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
@@ -202,6 +204,11 @@
                     @else
                         <button wire:click="updateEvent" type="button" class="btn btn-success" disabled>Aktualizuj</button>
                     @endif
+                    @if(count($allEventsPast) > 0)
+                        <button wire:click="showHistory" type="button" class="btn btn-outline-info">Historia</button>
+                    @else
+                        <button wire:click="showHistory" type="button" class="btn btn-outline-info" disabled>Historia</button>
+                    @endif
                     <button wire:click="$set('action', 2)"type="button" class="btn btn-outline-primary">Edytuj</button>
                     <button wire:click="setDelete" type="button" class="btn btn-outline-danger">Usuń</button>
                 </div>
@@ -294,4 +301,65 @@
         </div>
         @endif
     @endif
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="elementHistory{{$element_id}}" tabindex="-1" role="dialog" aria-labelledby="elementHistoryTitle{{$element_id}}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="elementHistoryTitle{{$element_id}}">Historia elementu: {{ $element->name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        @foreach ($allEventsPast as $event)
+                            @if(!$loop->first)
+                                <div>
+                                    <hr/>
+                                </div>
+                            @endif
+                            <div class="row align-items-center">
+                                <div class="col-md-3 text-muted">
+                                    Wymiana:
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="float-right">
+                                        {{ date("d-m-Y", strtotime($event->done_date)) }} 
+                                    </span>
+                                </div>
+                                <div class="col-md-3 text-muted">
+                                    Przebieg:
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="float-right">
+                                        @if($event->done_work_time_value != null)
+                                            {{ number_format($event->done_work_time_value,0,""," ") }} {{ $object->work_time_unit->short }} 
+                                        @else
+                                            --
+                                        @endif 
+                                    </span>
+                                </div>
+                            </div>
+                        @endforeach     
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    window.livewire.on('show{{$element_id}}', () => {
+        $('#elementHistory{{$element_id}}').modal('show');
+    });
+
+    </script>
+
 </div>

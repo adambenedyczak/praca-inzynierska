@@ -27,7 +27,8 @@ class DisplayObjectFull extends Component
     public $ifDelete = false;
     public $workTimeValue;
 
-    public $listeners = ['staffDirectoryRefresh' => 'render'];
+    public $listeners = ['staffDirectoryRefresh' => 'render',
+                        'refreshEvents' => 'refresh'];
 
 
     public function mount(){
@@ -35,6 +36,7 @@ class DisplayObjectFull extends Component
         $this->fav = $this->object->favourite;
         $this->objectType = $this->object->object_type_id;
         $this->object_name = $this->object->name;
+        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
     }
 
     public function toggleFav(){
@@ -55,24 +57,47 @@ class DisplayObjectFull extends Component
 
 
     public function confirmDelete(){
-        $vehicle = ObjectModel::findOrFail($this->object_id);
-        $vehicle->delete();
+        $events = Event::with('element','element.object_model')
+                ->where('events_type_id', 2)
+                ->whereHas('element.object_model', function ($query) {
+                    $query->where('id', $this->object_id);
+                })->get();
+        foreach($events as $event){
+            Notification::where('events_id', $event->id)->delete();
+        }
+
+        $elements = Element::where('object_model_id', $this->object_id)->get();
+
+        foreach($elements as $element){
+            Detail::where('elements_typeable_type', $element->elements_typeable_type)
+                ->where('elements_typeable_id', $element->elements_typeable_id)->delete();
+        }
+        $elements->delete();
+
+        Detail::where('detail_ownerable_type', 'App\Models\ObjectModel')
+                ->where('detail_ownerable_id', $this->object_id)->delete();
+
+        ObjectModel::findOrFail($this->object_id)->delete();
 
         session()->flash('message', 'Pojazd został usunięty');
         return redirect()->route('vehicles.index');
     }
 
+    public function refresh(){
+        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
+    }
 
     public function render()
     {
         $this->details = Detail::where('detail_ownerable_type', get_class($this->object))
                     ->where('detail_ownerable_id', $this->object_id)
-                    ->whereNull('own_name')->get();
+                    ->whereNull('own_name')
+                    ->orderBy('detail_typeable_id')->get();
 
         $this->ownDetails = Detail::where('detail_ownerable_type', get_class($this->object))
                     ->where('detail_ownerable_id', $this->object_id)
                     ->whereNotNull('own_name')->get();
-        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
+
         return view('livewire.display-object-full');
     }
 }

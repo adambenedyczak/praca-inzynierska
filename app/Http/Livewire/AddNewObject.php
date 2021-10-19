@@ -154,15 +154,18 @@ class AddNewObject extends Component
 
         switch($this->selectedObjectType){
             case '1': 
+                session()->flash('message', 'Nowy pojazd został dodany!');
                 return redirect()->route('vehicles.show', $obiekt->id);
                 break;
             case '2':
+                session()->flash('message', 'Nowa przyczepa została dodana!');
                 return redirect()->route('trailers.show', $obiekt->id);
                 break;
             case '3':
                 return redirect()->route('machines.show', $obiekt->id);
                 break;
             default:
+            session()->flash('message', 'Nowa maszyna została dodana!');
                 return redirect()->route('');
                 break;
         }

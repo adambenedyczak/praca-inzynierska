@@ -15,8 +15,8 @@ class InsurancesTypeSeeder extends Seeder
     public function run()
     {
         $elementy = [
-            1 => 'Ubezpieczenia OC',
-            2 => 'Ubezpieczenia AC',
+            1 => 'Ubezpieczenia AC',
+            2 => 'Ubezpieczenia OC',
             3 => 'Inne'
         ];
 

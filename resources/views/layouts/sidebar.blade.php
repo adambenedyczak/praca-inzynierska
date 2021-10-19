@@ -1,4 +1,4 @@
-<div class="bg-primary border-right shadow" id="sidebar-wrapper">
+<div class="bg-primary" id="sidebar-wrapper">
     <div class="sidebar-heading text-white">Lista obiektów </div>
     <div class="list-group list-group-flush">
     <a href="{{ route('home') }}" class="list-group-item list-group-item-action bg-primary sidebar-heading text-white">
@@ -23,4 +23,5 @@
     <a href="#" class="list-group-item list-group-item-action bg-primary text-white">Dashboard</a>
 
     </div>
+    
 </div>

@@ -1,4 +1,13 @@
 <div>
+    @if (session()->has('message'))
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="row justify-content-center my-3">
         <div class="col-lg-10 col-md-9 col-8 align-middle "> 
             @if ($objectType == 1)
@@ -37,6 +46,7 @@
                     <div class="dropdown-menu" >
                         <a href="{{ route('objects.edit', $object->id) }}" class="btn dropdown-item" >Edytuj</a>
                         <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" type="button">Archiwizuj</button>
                         <button wire:click="setDelete()" class="dropdown-item" type="button">Usuń</button>
                     </div>
                 </div>
@@ -127,6 +137,6 @@
         <hr/>
     </div>
     <div>
-        @livewire('display-elements', ['object_id' => $object->id]) 
+        @livewire('display-elements', ['object_id' => $object->id], key($object->id)) 
     </div>
 </div>
