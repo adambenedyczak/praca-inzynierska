@@ -20,11 +20,11 @@
             @endif
 
             @if($event->element->object_model->object_type_id == 1)
-                <a class="dropdown-item" href="{{ route('vehicles.show', $event->element->object_model->id)}}" >
+                <a class="dropdown-item" href="{{ route('vehicles.show', ['id' => $event->element->object_model->id, 'openSection' => $event->element->elements_category_id])}}" >
             @elseif($event->element->object_model->object_type_id == 2)
-                <a class="dropdown-item" href="{{ route('trailers.show', $event->element->object_model->id)}}" >
+                <a class="dropdown-item" href="{{ route('trailers.show', ['id' => $event->element->object_model->id, 'openSection' => $event->element->elements_category_id])}}" >
             @elseif($event->element->object_model->object_type_id == 3)
-                <a class="dropdown-item" href="{{ route('machines.show', $event->element->object_model->id)}}" >
+                <a class="dropdown-item" href="{{ route('machines.show', ['id' => $event->element->object_model->id, 'openSection' => $event->element->elements_category_id])}}" >
             @endif
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
