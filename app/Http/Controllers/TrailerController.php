@@ -21,7 +21,7 @@ class TrailerController extends Controller
         return view('trailers.index', compact('trailers'));
     }
 
-    public function show($id)
+    public function show($id, $openSection)
     {
         $trailer = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
         if($trailer == null){
@@ -29,7 +29,7 @@ class TrailerController extends Controller
         }else if(Auth::id() != $trailer->user_id){
             return back();
         }else{
-            return view('trailers.show', compact('trailer'));
+            return view('trailers.show', compact('trailer', 'openSection'));
         }        
     }
 }

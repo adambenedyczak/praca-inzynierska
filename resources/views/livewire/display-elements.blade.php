@@ -65,7 +65,8 @@
                         </button>
                     </h2>
                 </div>
-                <div id="collapse1" class="collapse hide" aria-labelledby="1" data-parent="#accordionExample">
+                
+                <div id="collapse1" class="collapse @if($openSection == 1) show @else hide @endif" aria-labelledby="1" data-parent="#accordionExample">
                     <div class="card-body p-2">
                         <div class="container px-2">
                         @foreach ($parts as $part)  
@@ -96,7 +97,7 @@
                         </button>
                     </h2>
                 </div>
-                <div id="collapse2" class="collapse hide" aria-labelledby="2" data-parent="#accordionExample">
+                <div id="collapse2" class="collapse @if($openSection == 2) show @else hide @endif" aria-labelledby="2" data-parent="#accordionExample">
                     <div class="card-body p-2">
                         <div class="container px-2">
                         @foreach ($overviews as $overview)  
@@ -127,7 +128,7 @@
                         </button>
                     </h2>
                 </div>
-                <div id="collapse3" class="collapse hide" aria-labelledby="3" data-parent="#accordionExample">
+                <div id="collapse3" class="collapse @if($openSection == 3) show @else hide @endif" aria-labelledby="3" data-parent="#accordionExample">
                     <div class="card-body p-2">
                         <div class="container px-2">
                         @foreach ($insurances as $insurance)  

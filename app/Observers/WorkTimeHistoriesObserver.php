@@ -12,7 +12,7 @@ class WorkTimeHistoriesObserver
         $current_value = WorkTimeHistory::where('object_model_id', $object)
                                     ->orderBy('created_at', 'desc')
                                     ->first();
-        if($current_value == $event->falue){
+        if($current_value == $event->value){
             return false;
         }
     }    

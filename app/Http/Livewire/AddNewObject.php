@@ -81,7 +81,7 @@ class AddNewObject extends Component
     }
 
     protected $rules = [
-        'object_name' => 'required|string|min:5|max:100',
+        'object_name' => 'required|string|min:2|max:100',
         'selectedWorkTimeUnit' => 'required',
         'workTimeValue' => 'nullable|numeric|gt:0'
     ];
@@ -155,17 +155,17 @@ class AddNewObject extends Component
         switch($this->selectedObjectType){
             case '1': 
                 session()->flash('message', 'Nowy pojazd został dodany!');
-                return redirect()->route('vehicles.show', $obiekt->id);
+                return redirect()->route('vehicles.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             case '2':
                 session()->flash('message', 'Nowa przyczepa została dodana!');
-                return redirect()->route('trailers.show', $obiekt->id);
+                return redirect()->route('trailers.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             case '3':
-                return redirect()->route('machines.show', $obiekt->id);
+                session()->flash('message', 'Nowa maszyna została dodana!');
+                return redirect()->route('machines.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             default:
-            session()->flash('message', 'Nowa maszyna została dodana!');
                 return redirect()->route('');
                 break;
         }

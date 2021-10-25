@@ -19,9 +19,10 @@ class PartsTypeSeeder extends Seeder
             2 => 'Inne',
             3 => 'Ogumienie',
             4 => 'Płyny i oleje',
-            5 => 'Układ hamulcowy',
-            7 => 'Układ kierowniczy',
-            6 => 'Układ napędowy',
+            5 => 'Układ chłodniczy',
+            6 => 'Układ hamulcowy',
+            7 => 'Układ napędowy',
+
         ];
 
         foreach ($elementy as $key => $element){

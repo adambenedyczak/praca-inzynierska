@@ -46,7 +46,6 @@
                     <div class="dropdown-menu" >
                         <a href="{{ route('objects.edit', $object->id) }}" class="btn dropdown-item" >Edytuj</a>
                         <div class="dropdown-divider"></div>
-                        <button class="dropdown-item" type="button">Archiwizuj</button>
                         <button wire:click="setDelete()" class="dropdown-item" type="button">Usuń</button>
                     </div>
                 </div>
@@ -104,7 +103,8 @@
             </div>
         @endif
         <div class="row my-3">
-            <div class="col-md-6 ">
+            @if(count($details) > 0)
+            <div class="col-md-6">
                 <div class="container">
                     @foreach ($details as $detail)
                     <div class="row">
@@ -118,6 +118,7 @@
                     @endforeach
                 </div>
             </div>
+            @endif
             <div class="col-md-6">
                 <div class="container">
                     @foreach ($ownDetails as $detail)
@@ -137,6 +138,6 @@
         <hr/>
     </div>
     <div>
-        @livewire('display-elements', ['object_id' => $object->id], key($object->id)) 
+        @livewire('display-elements', ['object_id' => $object->id, 'openSection' => $openSection], key($object->id)) 
     </div>
 </div>

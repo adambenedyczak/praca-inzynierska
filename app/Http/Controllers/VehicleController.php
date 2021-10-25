@@ -22,7 +22,7 @@ class VehicleController extends Controller
         return view('vehicles.index', compact('vehicles'));
     }
 
-    public function show($id)
+    public function show($id, $openSection)
     {
         $vehicle = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
         if($vehicle == null){
@@ -30,7 +30,7 @@ class VehicleController extends Controller
         }else if(Auth::id() != $vehicle->user_id){
             return back();
         }else{
-            return view('vehicles.show', compact('vehicle'));
+            return view('vehicles.show', compact('vehicle', 'openSection'));
         }        
     }
 }

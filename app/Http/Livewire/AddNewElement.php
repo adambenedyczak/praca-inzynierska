@@ -89,7 +89,7 @@ class AddNewElement extends Component
         if($this->addEvent){
             $this->validate(
                 [
-                    'element_name' => 'required|string|min:3|max:100',
+                    'element_name' => 'required|string|min:2|max:100',
                     'selectedType' => 'required',
                     'nextDate' => 'required|date|after:today',
                     'nextWorkTimeValue' => 'nullable|numeric|gt:workTVV'
@@ -107,7 +107,7 @@ class AddNewElement extends Component
         }else{
             $this->validate(
                 [
-                    'element_name' => 'required|string|min:3|max:100',
+                    'element_name' => 'required|string|min:2|max:100',
                     'selectedType' => 'required',
                 ],
                 [

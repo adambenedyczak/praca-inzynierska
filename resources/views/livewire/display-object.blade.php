@@ -65,7 +65,8 @@
                         </div>
                         @endif
                         <div class="row">
-                            <div class="col-md-6 ">
+                            @if(count($details) > 0)
+                            <div class="col-md-6">
                                 <div class="container">
                                     @foreach ($details as $detail)
                                     <div class="row">
@@ -79,6 +80,7 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endif
                             <div class="col-md-6">
                                 <div class="container">
                                     @foreach ($ownDetails as $detail)
@@ -99,19 +101,19 @@
                             <div class="col-6 col-md-8">
                                 <div class="d-none d-sm-block">
                                     @if ($parts > 0)
-                                    <button type="button" class="btn @if(isset($events[1])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
+                                    <button wire:click="showMore(1)" type="button" class="btn @if(isset($events[1])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/part.svg')}}" width="20" height="20" alt="" class="float-left">
                                         <span class="badge badge-primary ml-1 mb">{{ $parts }}</span>
                                     </button>
                                     @endif
                                     @if ($overviews > 0)
-                                    <button type="button" class="btn @if(isset($events[2])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
+                                    <button wire:click="showMore(2)" type="button" class="btn @if(isset($events[2])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/overview.svg')}}" width="20" height="20" alt="" class="float-left">
                                         <span class="badge badge-primary ml-1 mb">{{ $overviews }}</span>
                                     </button>
                                     @endif
                                     @if ($insurances > 0)
-                                    <button type="button" class="btn @if(isset($events[3])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
+                                    <button wire:click="showMore(3)" type="button" class="btn @if(isset($events[3])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
                                         <img src="{{ asset('storage/svg/insurance.svg')}}" width="20" height="20" alt="" class="float-left">
                                         <span class="badge badge-primary ml-1 mb">{{ $insurances }}</span>
                                     </button>
@@ -119,7 +121,7 @@
                                 </div>
                             </div>                            
                             <div class="col-6 col-md-4 ">                                
-                                <button wire:click="showMore" type="button" class="btn btn-outline-primary btn-block m-1">
+                                <button wire:click="showMore(0)" type="button" class="btn btn-outline-primary btn-block m-1">
                                     Pokaż więcej
                                 </button>                                
                             </div>

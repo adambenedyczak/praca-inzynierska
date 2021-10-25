@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('notifications:scheduler')->everyMinute();
+        $schedule->command('scheduler:start')->everyMinute();
                     /*->withoutOverlapping(2)
                     ->weekdays()
                     ->between('7:00', '22:00')

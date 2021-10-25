@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Event;
 use App\Models\Detail;
 use App\Models\Element;
 use Livewire\Component;
 use App\Models\ObjectModel;
+use App\Models\Notification;
 use App\Models\WorkTimeUnit;
 use App\Models\WorkTimeHistory;
 use App\Models\ObjectDetailType;
@@ -27,7 +29,9 @@ class DisplayObjectFull extends Component
     public $ifDelete = false;
     public $workTimeValue;
 
-    public $listeners = ['staffDirectoryRefresh' => 'render',
+    public $openSection = 0;
+
+    public $listeners = ['refreshElements' => 'render',
                         'refreshEvents' => 'refresh'];
 
 
@@ -72,7 +76,6 @@ class DisplayObjectFull extends Component
             Detail::where('elements_typeable_type', $element->elements_typeable_type)
                 ->where('elements_typeable_id', $element->elements_typeable_id)->delete();
         }
-        $elements->delete();
 
         Detail::where('detail_ownerable_type', 'App\Models\ObjectModel')
                 ->where('detail_ownerable_id', $this->object_id)->delete();
@@ -83,12 +86,9 @@ class DisplayObjectFull extends Component
         return redirect()->route('vehicles.index');
     }
 
-    public function refresh(){
-        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
-    }
-
     public function render()
     {
+        $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
         $this->details = Detail::where('detail_ownerable_type', get_class($this->object))
                     ->where('detail_ownerable_id', $this->object_id)
                     ->whereNull('own_name')

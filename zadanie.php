@@ -4,7 +4,7 @@
      *
      * @var array
      */
-    exec('php artisan schedule:run');
+    exec('php artisan scheduler:start');
     /**
      * The Artisan commands provided by your application.
      *

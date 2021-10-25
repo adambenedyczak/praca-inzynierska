@@ -50,6 +50,7 @@ class DisplayObject extends Component
                     ->where('detail_ownerable_id', $this->object_id)
                     ->whereNotNull('own_name')
                     ->take(5)->get();
+        
         $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'DESC')->first();
     
         $this->rules = NotificationRules::where('user_id', Auth::id())->first();
@@ -123,16 +124,16 @@ class DisplayObject extends Component
         return view('livewire.display-object');
     }
 
-    public function showMore(){
+    public function showMore($openSection){
         switch($this->objectType){
             case '1': 
-                return redirect()->route('vehicles.show', $this->object_id);
+                return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => $openSection]);
                 break;
             case '2':
-                return redirect()->route('trailers.show', $this->object_id);
+                return redirect()->route('trailers.show', ['id' => $this->object_id, 'openSection' => $openSection]);
                 break;
             case '3':
-                return redirect()->route('machines.show', $this->object_id);
+                return redirect()->route('machines.show', ['id' => $this->object_id, 'openSection' => $openSection]);
                 break;
         }
     }

@@ -15,9 +15,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::get('/email', function(){
-    return new NotificationMail();
-});
 
 Auth::routes(['verify' => true]);
 
@@ -62,9 +59,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('', '\App\Http\Controllers\VehicleController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
-        Route::get('{id}', '\App\Http\Controllers\VehicleController@show')
+        Route::get('{id}/{openSection}', '\App\Http\Controllers\VehicleController@show')
             ->name('show')
             ->where('id', '[0-9]+')
+            ->where('openSection', '[A-Za-z0-9]+')
             ->middleware(['permission:objects.show']);
     });
 
@@ -72,9 +70,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('', '\App\Http\Controllers\TrailerController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
-        Route::get('{id}', '\App\Http\Controllers\TrailerController@show')
+        Route::get('{id}/{openSection}', '\App\Http\Controllers\TrailerController@show')
             ->name('show')
             ->where('id', '[0-9]+')
+            ->where('openSection', '[A-Za-z0-9]+')
             ->middleware(['permission:objects.show']);
     });
 
@@ -82,9 +81,10 @@ Route::middleware(['auth'])->group(function() {
         Route::get('', '\App\Http\Controllers\MachineController@index')
             ->name('index')
             ->middleware(['permission:objects.show']);
-        Route::get('{id}', '\App\Http\Controllers\MachineController@show')
+        Route::get('{id}/{openSection}', '\App\Http\Controllers\MachineController@show')
             ->name('show')
             ->where('id', '[0-9]+')
+            ->where('openSection', '[A-Za-z0-9]+')
             ->middleware(['permission:objects.show']);
     });
 

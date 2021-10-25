@@ -18,7 +18,7 @@ class MachineController extends Controller
         return view('machines.index', compact('machines'));
     }
 
-    public function show($id)
+    public function show($id, $openSection)
     {
         $machine = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
         if($machine == null){
@@ -26,7 +26,7 @@ class MachineController extends Controller
         }else if(Auth::id() != $machine->user_id){
             return back();
         }else{
-            return view('machines.show', compact('machine'));
+            return view('machines.show', compact('machine', 'openSection'));
         }        
     }
 }

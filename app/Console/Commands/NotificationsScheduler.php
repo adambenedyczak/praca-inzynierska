@@ -20,7 +20,7 @@ class NotificationsScheduler extends Command
      *
      * @var string
      */
-    protected $signature = 'notifications:scheduler';
+    protected $signature = 'scheduler:start';
 
     /**
      * The console command description.
