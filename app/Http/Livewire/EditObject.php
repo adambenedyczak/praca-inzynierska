@@ -153,13 +153,13 @@ class EditObject extends Component
 
         switch($this->selectedObjectType){
             case '1': 
-                return redirect()->route('vehicles.show', $obiekt->id);
+                return redirect()->route('vehicles.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             case '2':
-                return redirect()->route('trailers.show', $obiekt->id);
+                return redirect()->route('trailers.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             case '3':
-                return redirect()->route('machines.show', $obiekt->id);
+                return redirect()->route('machines.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             default:
                 return redirect()->route('');

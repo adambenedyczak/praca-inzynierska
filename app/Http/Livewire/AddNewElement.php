@@ -178,13 +178,13 @@ class AddNewElement extends Component
 
         switch($this->object->object_type_id){
             case '1': 
-                return redirect()->route('vehicles.show', $this->object_id);
+                return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '2':
-                return redirect()->route('trailers.show', $this->object_id);
+                return redirect()->route('trailers.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '3':
-                return redirect()->route('machines.show', $this->object_id);
+                return redirect()->route('machines.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             default:
                 return redirect()->route('');
@@ -195,13 +195,13 @@ class AddNewElement extends Component
     public function cancelAdd(){
         switch($this->object->object_type_id){
             case '1': 
-                return redirect()->route('vehicles.show', $this->object_id);
+                return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '2':
-                return redirect()->route('trailers.show', $this->object_id);
+                return redirect()->route('trailers.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '3':
-                return redirect()->route('machines.show', $this->object_id);
+                return redirect()->route('machines.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             default:
                 return redirect()->route('');
@@ -210,7 +210,6 @@ class AddNewElement extends Component
     }
 
     public function switchShow(){
-        dd('odebrałem!');
         $this->ifShow = true;
     }
 }

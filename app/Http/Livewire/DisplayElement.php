@@ -146,13 +146,13 @@ class DisplayElement extends Component
 
         switch($this->object->object_type_id){
             case '1': 
-                return redirect()->route('vehicles.show', $this->object->id);
+                return redirect()->route('vehicles.show', ['id' => $this->object->id, 'openSection' => '0']);
                 break;
             case '2':
-                return redirect()->route('trailers.show', $this->object->id);
+                return redirect()->route('trailers.show', ['id' => $this->object->id, 'openSection' => '0']);
                 break;
             case '3':
-                return redirect()->route('machines.show', $this->object->id);
+                return redirect()->route('machines.show', ['id' => $this->object->id, 'openSection' => '0']);
                 break;
             default:
                 return redirect()->route('');

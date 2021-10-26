@@ -46,6 +46,7 @@
                     <div class="dropdown-menu" >
                         <a href="{{ route('objects.edit', $object->id) }}" class="btn dropdown-item" >Edytuj</a>
                         <div class="dropdown-divider"></div>
+                        <button wire:click="" class="dropdown-item" type="button">Archiwizuj</button>
                         <button wire:click="setDelete()" class="dropdown-item" type="button">Usuń</button>
                     </div>
                 </div>
