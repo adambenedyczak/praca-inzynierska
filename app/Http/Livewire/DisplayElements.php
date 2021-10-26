@@ -29,33 +29,36 @@ class DisplayElements extends Component
     public $events;
     public $events_gr;
 
+    public $isArchival = false;
+
     public $openSection = 0; //1,2,3
 
     public $listeners = ['refreshEvents' => 'remount'];
 
     public function mount(){
         $this->object = ObjectModel::with('detail_ownerable', 'work_time_unit')->where('id', $this->object_id)->first();
+        $this->isArchival = $this->object->archival;
         $this->objectType = $this->object->object_type_id;
         $this->parts = Element::with(
-                    'detail_ownerable',
-                    'elements_typeable',
-                    'element_category')
+                        'detail_ownerable',
+                        'elements_typeable',
+                        'element_category')
                     ->where('object_model_id', $this->object_id) 
                     ->where('elements_category_id', 1)
                     ->orderBy('elements_typeable_id')
                     ->orderBy('name')->get();
         $this->overviews = Element::with(
-                    'detail_ownerable',
-                    'elements_typeable', 
-                    'element_category')
+                        'detail_ownerable',
+                        'elements_typeable', 
+                        'element_category')
                     ->where('object_model_id', $this->object_id) 
                     ->where('elements_category_id', 2)
                     ->orderBy('elements_typeable_id')
                     ->orderBy('name')->get();
         $this->insurances = Element::with(
-                    'detail_ownerable',
-                    'elements_typeable', 
-                    'element_category')
+                        'detail_ownerable',
+                        'elements_typeable', 
+                        'element_category')
                     ->where('object_model_id', $this->object_id) 
                     ->where('elements_category_id', 3)
                     ->orderBy('elements_typeable_id')

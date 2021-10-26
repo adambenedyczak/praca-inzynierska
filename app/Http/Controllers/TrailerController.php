@@ -16,6 +16,7 @@ class TrailerController extends Controller
         $trailers = ObjectModel::with('detail_ownerable')
                                 ->where('user_id', Auth::id())
                                 ->where('object_type_id','2')
+                                ->where('archival', false)
                                 ->orderBy('name', 'ASC')
                                 ->get();
         return view('trailers.index', compact('trailers'));

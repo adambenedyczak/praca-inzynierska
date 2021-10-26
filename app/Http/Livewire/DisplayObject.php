@@ -24,13 +24,16 @@ class DisplayObject extends Component
     public $insurances;
     public $details = [];
     public $ownDetails = [];
-    public $ifDelete = false;
     public $workTimeValue;
     public $events;
+
+    public $isArchival = false;
+    public $ifDelete = false;
 
 
     public function mount(){
         $this->object = ObjectModel::find($this->object_id);
+        $this->isArchival = $this->object->archival;
         $this->fav = $this->object->favourite;
         $this->objectType = $this->object->object_type_id;
 

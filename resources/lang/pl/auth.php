@@ -22,6 +22,7 @@ return [
     'btn_log_out' => 'Wyloguj się', 
     'btn_edit_data' => 'Zmień hasło',
     'btn_notif_set' => 'Ustawienia powiadomień',
+    'btn_archives' => 'Archiwum',
     
     'auth_log_in' => 'Logowanie',
     'auth_registration' => 'Rejestracja',

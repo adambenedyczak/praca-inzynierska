@@ -24,6 +24,8 @@ class CreateObjectsTable extends Migration
             $table->foreign('work_time_unit_id')->references('id')->on('work_time_units');
             $table->integer('current_work_time_value')->nullable();
             $table->boolean('favourite')->default(false);
+            $table->boolean('archival')->default(false);
+            $table->date('archival_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

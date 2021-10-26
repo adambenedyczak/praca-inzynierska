@@ -26,6 +26,12 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     
+                    <a class="dropdown-item" href="{{ route('archive.index') }}" >
+                        {{ __('auth.btn_archives') }}
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+
                     <a class="dropdown-item" href="{{ route('notifications.settings') }}" >
                         {{ __('auth.btn_notif_set') }}
                     </a>

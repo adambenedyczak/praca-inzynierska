@@ -92,13 +92,13 @@ Route::middleware(['auth'])->group(function() {
         Route::get('settings', 'App\Http\Livewire\NotificationSettings')
             ->name('settings')
             ->middleware(['permission:objects.show']);
-        /*Route::get('{id}', '\App\Http\Controllers\MachineController@show')
-            ->name('show')
-            ->where('id', '[0-9]+')
-            ->middleware(['permission:objects.show']);*/
     });
 
-
+    Route::name('archive.')->prefix('archive')->middleware('verified')->group(function(){
+        Route::get('', '\App\Http\Controllers\ArchiveController@index')
+            ->name('index')
+            ->middleware(['permission:objects.show']);
+    });
 
 
 });
