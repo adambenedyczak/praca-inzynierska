@@ -121,14 +121,12 @@ class AddNewObject extends Component
                 $przebieg->save();
             }
 
-            $OBT = new ObjectDetailType;
-
             foreach($this->addDetails as $detail){
                 if($detail['detail_type_id'] != null && $detail['value'] != null){
                     $new_detail = new Detail;
                     $new_detail->detail_ownerable_type = get_class($obiekt);
                     $new_detail->detail_ownerable_id = $obiekt->id;
-                    $new_detail->detail_typeable_type = get_class($OBT);
+                    $new_detail->detail_typeable_type = get_class(new ObjectDetailType);
                     $new_detail->detail_typeable_id = trim($detail['detail_type_id']);
                     $new_detail->value = $detail['value'];
                     $new_detail->save();
@@ -151,6 +149,7 @@ class AddNewObject extends Component
         }catch (\Exception $ex) {
             DB::rollback();
         }
+
 
         switch($this->selectedObjectType){
             case '1': 

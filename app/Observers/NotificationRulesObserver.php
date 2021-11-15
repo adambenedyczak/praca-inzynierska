@@ -92,8 +92,5 @@ class NotificationRulesObserver
                 $notification->save();
             }
         }
-
-
-
     }
 }

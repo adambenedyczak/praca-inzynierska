@@ -2,9 +2,13 @@
     <div class="row justify-content-center m-0 p-0">
         <div class="col-12 col-md-10 col-lg-6 text-center p-0 m-0">
             <div class="btn-group shadow-sm" role="group" aria-label="Basic example">
-                <a href="{{ route('home') }}" type="button" class="btn btn-outline-warning">
+                @if (Route::currentRouteName() == 'home') 
+                    <a href="{{ route('home') }}" type="button" class="btn btn-warning">     
+                @else
+                    <a href="{{ route('home') }}" type="button" class="btn btn-outline-warning">                        
+                @endif  
                     Ulubione
-                </a>
+                </a>              
                 @if ($tmp == 1)
                     <a href="{{ route('vehicles.index') }}" type="button" class="btn btn-primary">
                 @else

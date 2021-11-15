@@ -21,7 +21,8 @@ class ObjectModel extends Model
         'name',
         'object_type_id',
         'user_id',
-        'work_time_unit_id'  
+        'work_time_unit_id',
+        'archival'
     ];
 
     public function elements(){

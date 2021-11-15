@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.6.0",
-        "bootstrap-icons": "^1.4.1"
+        "bootstrap-icons": "^1.6.1"
     },
     "name": "inz"
 }

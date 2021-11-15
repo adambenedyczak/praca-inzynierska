@@ -118,7 +118,6 @@ class DisplayObjectFull extends Component
 
             $this->object->archival = true;
             $this->object->favourite = false;
-            $this->object->archival_date = Carbon::now()->toDateString(); 
             $this->object->save();
 
             switch($this->objectType){
@@ -140,21 +139,20 @@ class DisplayObjectFull extends Component
             }
         }else{
             $this->object->archival = false;
-            $this->object->archival_date = NULL; 
             $this->object->save();
 
             switch($this->objectType){
                 case '1': 
                     session()->flash('message', 'Pojazd został przywrócony');
-                    return redirect()->route('vehicles.index');
+                    return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                     break;
                 case '2':
                     session()->flash('message', 'Przyczepa została przywrócona');
-                    return redirect()->route('trailers.index');
+                    return redirect()->route('trailers.show', ['id' => $this->object_id, 'openSection' => '0']);
                     break;
                 case '3':
                     session()->flash('message', 'Maszyna została przywrócona');
-                    return redirect()->route('machines.index');
+                    return redirect()->route('machines.show', ['id' => $this->object_id, 'openSection' => '0']);
                     break;
                 default:
                     return redirect()->route('');

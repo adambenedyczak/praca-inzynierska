@@ -71,7 +71,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <span class="lead">Czy na pewno chcesz usunąć?</span>
+                        <span class="lead">Czy na pewno chcesz usunąć? (operacja nieodwracalna)</span>
                     </div>
                 </div>
                 <div class="row py-2">

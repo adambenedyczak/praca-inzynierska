@@ -16,11 +16,4 @@ class WorkTimeHistoriesObserver
             return false;
         }
     }    
-
-    public function created(WorkTimeHistory $event){
-        $object = $event->object_model_id;
-        $updated_object = ObjectModel::where('id', $object)->first();
-        $updated_object->current_work_time_value = $event->value;
-        $updated_object->save();
-    }  
 }

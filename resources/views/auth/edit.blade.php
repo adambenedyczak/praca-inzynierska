@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-7">
-            <div class="card">
-                <div class="card-header">{{ __('auth.auth_edit') }}</div>
-
+            <div class="card border-primary">
                 <div class="card-body">
+
+                    <h4 class="card-title mb-3">{{ __('auth.auth_edit') }}</h4>
+
                     @if($errors->any())
                         <div class="alert alert-danger">
                             <ul>

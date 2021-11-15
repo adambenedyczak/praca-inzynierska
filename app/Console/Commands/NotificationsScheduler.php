@@ -15,52 +15,41 @@ use Illuminate\Support\Facades\Mail;
 
 class NotificationsScheduler extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'scheduler:start';
+    protected $signature = 'notifications:start';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Przypomnienia o zdarzeniach';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        //tutaj kod
+    public function handle(){
         $users = User::whereNotNull('email_verified_at')->get();
         $today = Carbon::now()->format('Y-m-d');
         foreach($users as $user){
-            $notificationsParts = Notification::with('user', 'event.element.object_model', 'event.element.element_category')
+            $notificationsParts = Notification::with(
+                                                    'user', 
+                                                    'event.element.object_model', 
+                                                    'event.element.element_category'
+                                                    )
                                         ->where('user_id', '=', $user->id)
                                         ->where('elements_category_id', '=', '1')
                                         ->where('send', '<=', $today)
                                         ->get();
-            $notificationsOverviews = Notification::with('user', 'event.element.object_model', 'event.element.element_category')
+            $notificationsOverviews = Notification::with(
+                                                    'user', 
+                                                    'event.element.object_model', 
+                                                    'event.element.element_category'
+                                                    )
                                         ->where('user_id', '=', $user->id)
                                         ->where('elements_category_id', '=', '2')
                                         ->where('send', '<=', $today)
                                         ->get();
-            $notificationsInsurances = Notification::with('user', 'event.element.object_model', 'event.element.element_category')
+            $notificationsInsurances = Notification::with(
+                                                    'user', 
+                                                    'event.element.object_model', 
+                                                    'event.element.element_category'
+                                                    )
                                         ->where('user_id', '=', $user->id)
                                         ->where('elements_category_id', '=', '3')
                                         ->where('send', '<=', $today)

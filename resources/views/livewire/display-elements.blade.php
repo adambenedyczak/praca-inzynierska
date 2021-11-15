@@ -4,11 +4,16 @@
         <div class="row justify-content-between">
             @if($ifAddWorkTimeHistory == false)
                 <div class="col-md-4 my-1">
-                @if($workTimeUnit != 1)                
-                    <button wire:click="$set('ifAddWorkTimeHistory', true)"class="btn btn-success btn-block" type="button">
-                        Aktualizuj przebieg
+                    @if($workTimeUnit != 1)                
+                        <button wire:click="$set('ifAddWorkTimeHistory', true)"class="btn btn-success btn-block" type="button">
+                            Aktualizuj przebieg
+                        </button>
+                    @endif
+                </div>
+                <div class="col-md-4 my-1">
+                    <button wire:click="openPDFModal" class="btn btn-outline-primary btn-block" type="button">
+                        Generuj PDF
                     </button>
-                @endif
                 </div>
             @else
                 <div class="col-md-8 my-1">  
@@ -29,7 +34,7 @@
                                     </small>
                                 @enderror
                             </div>
-                            <div class="col-md-5 my-1">
+                            <div class="col-md-5">
                                 <div class="btn-group btn-block" role="group">
                                     <button wire:click="$set('ifAddWorkTimeHistory', false)" type="button" class="btn btn-outline-primary">Anuluj</button>
                                     <button wire:click="storeNewWorkTimeHistory" type="button" class="btn btn-success">Zapisz</button>
@@ -148,5 +153,24 @@
         @endif
         </div>
         
+
+        <div class="modal fade" id="PDFModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                
+                    @livewire('generate-p-d-f', ['object_id' => $object->id], key($object->id . $object->id .$object->id))  
+                
+              </div>
+            </div>
+          </div>
 </div>
+
+<script>
+    window.addEventListener('closePDFModal', event => {
+      $("#PDFModal").modal('hide');
+    })
+    window.addEventListener('openPDFModal', event => {
+      $("#PDFModal").modal('show');
+    })
+  </script>
 

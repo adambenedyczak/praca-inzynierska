@@ -3,7 +3,7 @@
 @section('content')
 <div class="row justify-content-center mt-sm-5 m-3">
     <div class="col-lg-4 col-md-5  col-sm-8 p-0">
-        <div class="card border-primary " >
+        <div class="card border-primary" >
             <div class="card-body">
                 <h4 class="card-title mb-3">{{ __('auth.auth_log_in') }}</h4>
 

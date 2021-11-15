@@ -186,9 +186,12 @@ class DisplayElements extends Component
         $newWorkTimeHistory->value = $this->currentWorkTimeValue;
         $newWorkTimeHistory->save();
         $this->ifAddWorkTimeHistory = false;
-        $this->currentWorkTimeValue = '';
         session()->flash('message', 'Przebieg został zaktualizowany!');
         $this->emit('refreshElements');
+    }
+    
+    public function openPDFModal(){
+        $this->dispatchBrowserEvent('openPDFModal');
     }
 
     public function render()

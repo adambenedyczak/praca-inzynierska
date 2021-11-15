@@ -100,6 +100,16 @@ Route::middleware(['auth'])->group(function() {
             ->middleware(['permission:objects.show']);
     });
 
+    Route::name('pdf.')->prefix('pdf')->middleware('verified')->group(function(){
+        Route::get('/{id}/{p}/{o}/{i}/{h}', '\App\Http\Controllers\PDFController@generate')
+            ->name('index')
+            ->where('id', '[0-9]+')
+            ->where('p', '[0-1]')
+            ->where('o', '[0-1]')
+            ->where('i', '[0-1]')
+            ->where('h', '[0-1]')
+            ->middleware(['permission:objects.show']);
+    });
 
 });
 

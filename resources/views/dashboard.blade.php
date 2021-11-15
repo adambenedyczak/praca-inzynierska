@@ -10,21 +10,26 @@
             <div class="col-xl-8 col-md-10">
                 <div class="jumbotron bg-primary text-white">
                     <h1 class="mb-4">Witaj, {{$user->name}}!</h1>
-                    <p class="lead">Dziękujemy za dołączenie do grona użytkowników {{ config('app.name', 'Laravel') }}. </br>Cieszymy się, że jesteś z nami!</p>
+                    <p class="lead">Dziękujemy za dołączenie do grona użytkowników 
+                        {{ config('app.name', 'Laravel') }}
+                    </br>Cieszymy się, że jesteś z nami!</p>
+
                     <hr class="my-4">
+
                     <p class="lead">Na podany przez Ciebie adres email został wysłany link weryfikacyjny. 
-                    </br>Proszę, kliknij w niego aby korzystać w pełni z możliwości serwisu.
-                    </br></br>Jeżeli nie otrzymałeś(-aś) wiadomości,   
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn text-white p-0 m-0 align-baseline"><strong>{{ __('kliknij w ten link') }}</strong></button>.
-                    </form>
+                        </br>Proszę, kliknij w niego aby korzystać w pełni z możliwości serwisu.
+                        </br></br>Jeżeli nie otrzymałeś(-aś) wiadomości,  
+                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <button type="submit" class="btn text-white p-0 m-0 align-baseline">
+                                <strong>{{ __('kliknij w ten link') }}</strong>
+                            </button>.
+                        </form>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-
 @else
     @if( count($favs) > 0)
         <div class="mt-md-5 mt-3">
