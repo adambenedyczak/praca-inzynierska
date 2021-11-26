@@ -29,7 +29,7 @@ return [
     'auth_edit' => 'Zmiana hasła i loginu',
 
     'auth_name' => 'Imię',
-    'auth_email' => 'Adres e-mail',
+    'auth_email' => 'Adres email',
     'auth_password' => 'Hasło',
     'auth_confirm_password' => 'Powtórz hasło',
 
