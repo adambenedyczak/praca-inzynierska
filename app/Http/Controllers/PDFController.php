@@ -79,8 +79,7 @@ class PDFController extends Controller
             $workTimeHistory = WorkTimeHistory::where('object_model_id', $id)->orderBy('created_at', 'desc')->get();
             
             $currentDate = Carbon::now()->tostring();
-            //dd($parts);
-            //view()->share('employee', $data);
+            
             $pdf = PDF::loadView('pdf.pdf', compact('object', 'parts', 'overviews', 'insurances', 'h', 'details', 'ownDetails', 'workTimeValue', 'workTimeHistory', 'currentDate'));
 
             $nazwa = 'Informacje o '. $object->name .'.pdf';

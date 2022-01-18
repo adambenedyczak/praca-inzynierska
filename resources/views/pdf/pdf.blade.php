@@ -209,7 +209,7 @@
     @endif
 
     @if($h == 1 && count($workTimeHistory) > 0)
-        <span style="font-size: 20px; font-weight: bold; ; border-bottom:double 3px #000;">>> Historia przebiegu</span>
+        <span style="font-size: 20px; font-weight: bold;">>> Historia przebiegu</span>
         <table style="width: 100%">      
         @foreach($workTimeHistory as $item)                    
             <tr>

@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-floating my-1">
-                                    <label for="unit">{{ __('Kategoria') }}</label>
+                                    <label for="unit">{{ __('Rodzaj') }}</label>
                                     <select name="selectedType"
                                             wire:model.lazy="selectedType"
                                             class="form-control" required >

@@ -20,7 +20,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:5','max:100'],
+            'name' => ['required', 'string', 'min:2','max:100'],
             'password-new' => ['nullable', 'string', 'min:5'],
             'password-confirm' => ['nullable', 'required_with:password-new', 
                                     'same:password-new','string', 'min:5'],

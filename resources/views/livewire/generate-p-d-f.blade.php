@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
     <div class="form-group">
-        <h6>Wybierz elementy</h6>
+        <h6>Wybierz kategorie elementów</h6>
         <div class="form-check">
             <input wire:model="setParts" class="form-check-input" type="checkbox" value="" id="chbxparts">
             <label class="form-check-label" for="chbxparts">

@@ -104,7 +104,7 @@
                         </div>
                         <div class="row justify-content-center mt-3">
                             @if ($ifDelete == false)
-                            <div class="col-6 col-md-8">
+                            <div class="col-0 col-sm-6 col-md-8">
                                 <div class="d-none d-sm-block">
                                     @if ($parts > 0)
                                     <button wire:click="showMore(1)" type="button" class="btn @if(isset($events[1])) btn-outline-primary btn-warning @else btn-outline-primary @endif float-left m-1">
@@ -126,7 +126,7 @@
                                     @endif
                                 </div>
                             </div>                            
-                            <div class="col-6 col-md-4 ">                                
+                            <div class="col-12 col-sm-6 col-md-4 ">                                
                                 <button wire:click="showMore(0)" type="button" class="btn btn-outline-primary btn-block m-1">
                                     Pokaż więcej
                                 </button>                                

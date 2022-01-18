@@ -11,12 +11,12 @@
 
 @section('js-scripts')
 <script>
-    $("#menu-toggle").click(function(e) {
+    $('#menu-toggle').click(function(e) {
       e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
+      $('#wrapper').toggleClass('toggled');
     });
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
+      $('[data-toggle"tooltip"]').tooltip()
     })
   </script>
   

@@ -17,6 +17,10 @@
     </div>
 @endif
 
+<div class="d-block d-md-none text-center">
+    <h3>Moje przyczepy</h3>
+</div>
+
 @if( count($trailers) > 0)
     <div class="mt-md-5 mt-3">
         @foreach ($trailers as $trailer)
