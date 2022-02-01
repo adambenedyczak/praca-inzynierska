@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,24 +19,24 @@
     <link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url('css/app.css') }}" rel="stylesheet">
 
-   
+
 
     @yield('css-styles')
 
     @livewireStyles
 </head>
+
 <body>
     <div class="d-flex" id="wrapper">
-        
+
         @include('layouts.sidebar')
         @include('layouts.pagecontent')
-    </div>    
+    </div>
 
-    <!-- <script type="text/javascript" src="{{ url('js/app.js') }}"></script> -->
     <script type="text/javascript" src="{{ url('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('js/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('js/bootstrap.js') }}"></script>
-    
+
 
 
     @yield('js-scripts')
