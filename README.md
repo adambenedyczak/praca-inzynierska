@@ -15,12 +15,12 @@ Aby zainstalować projekt przekopiuj pliki do dowolnego folderu.
 Następnie uruchom terminal w tym folerze i wykonaj następujące komendy:
 
 ```
-$ composer install
-$ npm install
-$ npm run dev
-$ php artisan key:generate
-$ php artisan migrate:fresh --seed
-$ php artisan storage:link
+composer install
+npm install
+npm run dev
+php artisan key:generate
+php artisan migrate:fresh --seed
+php artisan storage:link
 ```
 
 ## Uruchomienie projektu
@@ -28,7 +28,7 @@ $ php artisan storage:link
 Aby uruchomić projekt wykonaj następującą komendę:
 
 ```
-$ php artisan serve
+php artisan serve
 ```
 
 Następnie otwórz dowolną przeglądarkę i przejdź do adresu: `http://127.0.0.1:8000`
