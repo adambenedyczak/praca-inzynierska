@@ -32,7 +32,7 @@ $ php artisan serve
 ```
 
 Następnie otwórz dowolną przeglądarkę i przejdź do adresu: `http://127.0.0.1:8000`
-Na stronie logowanie podaj następujące dane:
+Na stronie logowania wpisz następujące dane:
 
-login: `admin@admin`
-hasło: `admin`
+Adres email: `admin@admin`
+Hasło: `admin`
