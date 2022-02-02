@@ -14,10 +14,11 @@ class ObjectType extends Model
     protected $table = 'objects_type';
 
     protected $fillable = [
-        'name'  
+        'name'
     ];
 
-    public function objects(){
+    public function objects()
+    {
         return $this->hasMany('\App\Models\ObjectModel');
     }
 }

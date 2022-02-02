@@ -26,7 +26,8 @@ class AddNewObject extends Component
 
     public $workTimeValue;
 
-    public function mount(){
+    public function mount()
+    {
         $this->allWorkTimeUnit = WorkTimeUnit::all();
         $this->allDetailsType = ObjectDetailType::orderBy('name')->get();
         $this->addDetails = [
@@ -34,18 +35,20 @@ class AddNewObject extends Component
         ];
         $this->selectedWorkTimeUnit = 2;
     }
-    
-    public function updatedSelectedObjectType(){
-        if($this->selectedObjectType == 1){
+
+    public function updatedSelectedObjectType()
+    {
+        if ($this->selectedObjectType == 1) {
             $this->selectedWorkTimeUnit = 2;
-        }elseif($this->selectedObjectType == 2){
+        } elseif ($this->selectedObjectType == 2) {
             $this->selectedWorkTimeUnit = 1;
-        }elseif($this->selectedObjectType == 3){
+        } elseif ($this->selectedObjectType == 3) {
             $this->selectedWorkTimeUnit = 3;
-        }        
+        }
     }
 
-    public function updatedSelectedWorkTimeUnit($value){
+    public function updatedSelectedWorkTimeUnit($value)
+    {
         $this->selectedWorkTimeUnit = $value;
     }
 
@@ -77,7 +80,7 @@ class AddNewObject extends Component
     {
         info($this->addDetails);
         return view('livewire.add-new-object')
-                    ->extends('layouts.app');
+            ->extends('layouts.app');
     }
 
     protected $rules = [
@@ -86,7 +89,8 @@ class AddNewObject extends Component
         'workTimeValue' => 'nullable|numeric|gt:0'
     ];
 
-    public function updated($object_name){
+    public function updated($object_name)
+    {
         $this->validateOnly($object_name);
     }
 
@@ -101,12 +105,13 @@ class AddNewObject extends Component
         ];
     }
 
-    public function saveAll(){
+    public function saveAll()
+    {
         $this->validate();
-        
-        $obiekt = new ObjectModel;            
+
+        $obiekt = new ObjectModel;
         DB::beginTransaction();
-        try{
+        try {
             $user = Auth::user()->id;
             $obiekt->name = ucfirst(trim($this->object_name));
             $obiekt->object_type_id = $this->selectedObjectType;
@@ -114,15 +119,15 @@ class AddNewObject extends Component
             $obiekt->work_time_unit_id = $this->selectedWorkTimeUnit;
             $obiekt->save();
 
-            if($this->workTimeValue != null){
+            if ($this->workTimeValue != null) {
                 $przebieg = new WorkTimeHistory;
                 $przebieg->object_model_id = $obiekt->id;
                 $przebieg->value = $this->workTimeValue;
                 $przebieg->save();
             }
 
-            foreach($this->addDetails as $detail){
-                if($detail['detail_type_id'] != null && $detail['value'] != null){
+            foreach ($this->addDetails as $detail) {
+                if ($detail['detail_type_id'] != null && $detail['value'] != null) {
                     $new_detail = new Detail;
                     $new_detail->detail_ownerable_type = get_class($obiekt);
                     $new_detail->detail_ownerable_id = $obiekt->id;
@@ -130,12 +135,12 @@ class AddNewObject extends Component
                     $new_detail->detail_typeable_id = trim($detail['detail_type_id']);
                     $new_detail->value = $detail['value'];
                     $new_detail->save();
-                }            
+                }
             }
 
-            if($this->addOwnDetails != null){
-                foreach($this->addOwnDetails as $detail){
-                    if($detail['own_name'] != null && $detail['value'] != null){
+            if ($this->addOwnDetails != null) {
+                foreach ($this->addOwnDetails as $detail) {
+                    if ($detail['own_name'] != null && $detail['value'] != null) {
                         $new_detail = new Detail;
                         $new_detail->detail_ownerable_type = get_class($obiekt);
                         $new_detail->detail_ownerable_id = $obiekt->id;
@@ -146,13 +151,13 @@ class AddNewObject extends Component
                 }
             }
             DB::commit();
-        }catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             DB::rollback();
         }
 
 
-        switch($this->selectedObjectType){
-            case '1': 
+        switch ($this->selectedObjectType) {
+            case '1':
                 session()->flash('message', 'Nowy pojazd został dodany!');
                 return redirect()->route('vehicles.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
@@ -168,6 +173,5 @@ class AddNewObject extends Component
                 return redirect()->route('');
                 break;
         }
-
     }
 }

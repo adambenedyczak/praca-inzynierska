@@ -17,10 +17,11 @@ class Register extends Model
         'objects_id',
         'work_time_value',
         'note',
-        'done_date'  
+        'done_date'
     ];
 
-    public function objects(){
+    public function objects()
+    {
         return $this->hasMany('\App\Models\ObjectModel');
     }
 }

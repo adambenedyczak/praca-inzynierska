@@ -11,23 +11,23 @@ class MachineController extends Controller
     public function index()
     {
         $machines = ObjectModel::with('detail_ownerable')
-                                ->where('user_id', Auth::id())
-                                ->where('object_type_id','3')
-                                ->where('archival', false)
-                                ->orderBy('name', 'ASC')
-                                ->get();
+            ->where('user_id', Auth::id())
+            ->where('object_type_id', '3')
+            ->where('archival', false)
+            ->orderBy('name', 'ASC')
+            ->get();
         return view('machines.index', compact('machines'));
     }
 
     public function show($id, $openSection)
     {
         $machine = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
-        if($machine == null){
+        if ($machine == null) {
             return back();
-        }else if(Auth::id() != $machine->user_id){
+        } else if (Auth::id() != $machine->user_id) {
             return back();
-        }else{
+        } else {
             return view('machines.show', compact('machine', 'openSection'));
-        }        
+        }
     }
 }

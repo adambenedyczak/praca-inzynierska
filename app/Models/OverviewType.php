@@ -13,10 +13,11 @@ class OverviewType extends Model
     protected $table = 'overviews_type';
 
     protected $fillable = [
-        'name'  
+        'name'
     ];
 
-    public function elements_typeable(){
+    public function elements_typeable()
+    {
         return $this->morphMany(Element::class, 'elements_typeable');
     }
 }

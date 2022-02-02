@@ -15,10 +15,11 @@ class WorkTimeUnit extends Model
 
     protected $fillable = [
         'name',
-        'short'  
+        'short'
     ];
 
-    public function objects(){
+    public function objects()
+    {
         return $this->hasMany('\App\Models\ObjectModel');
     }
 }

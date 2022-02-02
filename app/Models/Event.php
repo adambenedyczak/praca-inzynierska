@@ -20,18 +20,21 @@ class Event extends Model
         'events_type_id',
         'expired_date',
         'done_date',
-        'work_time_value'  
+        'work_time_value'
     ];
 
-    public function event_type(){
+    public function event_type()
+    {
         return $this->belongsTo('\App\Models\EventType');
     }
 
-    public function element(){
+    public function element()
+    {
         return $this->belongsTo('\App\Models\Element');
     }
 
-    public function notifications(){
+    public function notifications()
+    {
         return $this->hasMany('\App\Models\Notification');
     }
 }

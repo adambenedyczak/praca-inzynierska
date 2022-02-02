@@ -18,72 +18,75 @@ class PDFController extends Controller
     {
 
         $object = ObjectModel::with('detail_ownerable', 'work_time_unit')
-                            ->where('id', $id)
-                            ->first();
+            ->where('id', $id)
+            ->first();
 
-        if($object == null){
+        if ($object == null) {
             return back();
-        }else if(Auth::id() != $object->user_id){
+        } else if (Auth::id() != $object->user_id) {
             return back();
-        }else{
-            if($p == 1){
+        } else {
+            if ($p == 1) {
                 $parts = Element::with(
                     'detail_ownerable',
                     'elements_typeable',
                     'element_category',
-                    'events')
-                ->where('object_model_id', $id) 
-                ->where('elements_category_id', 1)
-                ->orderBy('elements_typeable_id')
-                ->orderBy('name')->get();
-            }else{
+                    'events'
+                )
+                    ->where('object_model_id', $id)
+                    ->where('elements_category_id', 1)
+                    ->orderBy('elements_typeable_id')
+                    ->orderBy('name')->get();
+            } else {
                 $parts = null;
             }
-            if($o == 1){
+            if ($o == 1) {
                 $overviews = Element::with(
                     'detail_ownerable',
-                    'elements_typeable', 
+                    'elements_typeable',
                     'element_category',
-                    'events')
-                ->where('object_model_id', $id) 
-                ->where('elements_category_id', 2)
-                ->orderBy('elements_typeable_id')
-                ->orderBy('name')->get();
-            }else{
+                    'events'
+                )
+                    ->where('object_model_id', $id)
+                    ->where('elements_category_id', 2)
+                    ->orderBy('elements_typeable_id')
+                    ->orderBy('name')->get();
+            } else {
                 $overviews = null;
             }
-            if($i == 1){
+            if ($i == 1) {
                 $insurances = Element::with(
                     'detail_ownerable',
-                    'elements_typeable', 
+                    'elements_typeable',
                     'element_category',
-                    'events')
-                ->where('object_model_id', $id) 
-                ->where('elements_category_id', 3)
-                ->orderBy('elements_typeable_id')
-                ->orderBy('name')->get();
-            }else{
+                    'events'
+                )
+                    ->where('object_model_id', $id)
+                    ->where('elements_category_id', 3)
+                    ->orderBy('elements_typeable_id')
+                    ->orderBy('name')->get();
+            } else {
                 $insurances = null;
-            }       
+            }
 
             $workTimeValue = WorkTimeHistory::where('object_model_id', $id)->orderBy('created_at', 'desc')->first();
             $details = Detail::where('detail_ownerable_type', get_class($object))
-                        ->where('detail_ownerable_id', $id)
-                        ->whereNull('own_name')
-                        ->orderBy('detail_typeable_id')->get();
+                ->where('detail_ownerable_id', $id)
+                ->whereNull('own_name')
+                ->orderBy('detail_typeable_id')->get();
 
             $ownDetails = Detail::where('detail_ownerable_type', get_class($object))
-                        ->where('detail_ownerable_id', $id)
-                        ->whereNotNull('own_name')->get();
+                ->where('detail_ownerable_id', $id)
+                ->whereNotNull('own_name')->get();
 
             $workTimeHistory = WorkTimeHistory::where('object_model_id', $id)->orderBy('created_at', 'desc')->get();
-            
+
             $currentDate = Carbon::now()->tostring();
-            
+
             $pdf = PDF::loadView('pdf.pdf', compact('object', 'parts', 'overviews', 'insurances', 'h', 'details', 'ownDetails', 'workTimeValue', 'workTimeHistory', 'currentDate'));
 
-            $nazwa = 'Informacje o '. $object->name .'.pdf';
-            return $pdf->stream($nazwa);   
+            $nazwa = 'Informacje o ' . $object->name . '.pdf';
+            return $pdf->stream($nazwa);
         }
     }
 }

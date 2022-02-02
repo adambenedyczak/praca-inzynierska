@@ -19,13 +19,13 @@ class DashboardController extends Controller
     public function index()
     {
         $favs = ObjectModel::where('user_id', Auth::id())
-                ->where('favourite', true)
-                ->orderBy('name', 'ASC')
-                ->get();
+            ->where('favourite', true)
+            ->orderBy('name', 'ASC')
+            ->get();
         $user = User::where('id', Auth::id())->first();
-        if($user->email_verified_at == null){
+        if ($user->email_verified_at == null) {
             $mustVerify = true;
-        }else{
+        } else {
             $mustVerify = false;
         }
         return view('dashboard', compact('favs', 'mustVerify', 'user'));

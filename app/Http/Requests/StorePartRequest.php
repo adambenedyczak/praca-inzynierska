@@ -16,7 +16,7 @@ class StorePartRequest extends FormRequest
         return [
             'part_name' => 'nullable|string|min:5|max:100',
             'part_type' => 'required',
-          ];
+        ];
     }
 
     public function messages()
@@ -25,7 +25,7 @@ class StorePartRequest extends FormRequest
             'part_type.required' => 'Typ części jest wymagany',
             'part_name.min' => 'Nazwa musi mieć minimum :min znaków',
             'part_name.max' => 'Nazwa może mieć maksymalnie :max znaków',
-            
+
         ];
     }
 }

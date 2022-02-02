@@ -21,24 +21,29 @@ class Element extends Model
         'name',
         'elements_category_id',
         'elements_typeable_type',
-        'elements_typeable_id'  
+        'elements_typeable_id'
     ];
 
-    public function elements_typeable(){
+    public function elements_typeable()
+    {
         return $this->morphTo();
     }
 
-    public function element_category(){
+    public function element_category()
+    {
         return $this->belongsTo(ElementCategory::class, 'elements_category_id');
     }
 
-    public function events(){
+    public function events()
+    {
         return $this->hasMany(Event::class);
     }
-    public function detail_ownerable(){
+    public function detail_ownerable()
+    {
         return $this->morphMany(Detail::class, 'detail_ownerable');
     }
-    public function object_model(){
+    public function object_model()
+    {
         return $this->belongsTo(ObjectModel::class);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Observers\WorkTimeHistoriesObserver;
 
 use App\Models\ObjectModel;
@@ -16,10 +17,11 @@ class WorkTimeHistory extends Model
 
     protected $fillable = [
         'object_id',
-        'value'  
+        'value'
     ];
 
-    public function object(){
+    public function object()
+    {
         return $this->belongsTo('\App\Models\ObjectModel');
     }
 }

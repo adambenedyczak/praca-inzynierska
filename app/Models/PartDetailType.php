@@ -13,10 +13,11 @@ class PartDetailType extends Model
     protected $table = 'part_details_type';
 
     protected $fillable = [
-        'name'  
+        'name'
     ];
 
-    public function detail_typeable(){
+    public function detail_typeable()
+    {
         return $this->morphMany(Detail::class, 'detail_typeable');
     }
 }

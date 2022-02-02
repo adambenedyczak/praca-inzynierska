@@ -19,7 +19,8 @@ class SentMessage extends Model
         'when_sent'
     ];
 
-    public function messages_content(){
+    public function messages_content()
+    {
         return $this->hasMany('\App\Models\MessageContent');
     }
 }

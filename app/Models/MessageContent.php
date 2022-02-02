@@ -24,7 +24,8 @@ class MessageContent extends Model
         'sent_messages_id'
     ];
 
-    public function sent_message(){
+    public function sent_message()
+    {
         return $this->belongsTo('\App\Models\SentMessage');
     }
 }

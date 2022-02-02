@@ -13,10 +13,11 @@ class ObjectDetailType extends Model
     protected $table = 'object_details_type';
 
     protected $fillable = [
-        'name'  
+        'name'
     ];
 
-    public function detail_typeable(){
+    public function detail_typeable()
+    {
         return $this->morphMany(Detail::class, 'detail_typeable');
     }
 }

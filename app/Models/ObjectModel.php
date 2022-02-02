@@ -25,22 +25,28 @@ class ObjectModel extends Model
         'archival'
     ];
 
-    public function elements(){
+    public function elements()
+    {
         return $this->hasMany('\App\Models\Element');
     }
-    public function work_time_histories(){
+    public function work_time_histories()
+    {
         return $this->hasMany('\App\Models\WorkTimeHistory');
     }
-    public function work_time_unit(){
+    public function work_time_unit()
+    {
         return $this->belongsTo('\App\Models\WorkTimeUnit');
     }
-    public function object_type(){
+    public function object_type()
+    {
         return $this->belongsTo('\App\Models\ObjectType');
     }
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('\App\Models\User');
     }
-    public function detail_ownerable(){
+    public function detail_ownerable()
+    {
         return $this->morphMany(Detail::class, 'detail_ownerable');
     }
 }

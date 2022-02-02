@@ -15,14 +15,16 @@ class ElementCategory extends Model
     protected $table = 'elements_category';
 
     protected $fillable = [
-        'name'  
+        'name'
     ];
 
-    public function elements(){
+    public function elements()
+    {
         return $this->hasMany('\App\Models\Element');
     }
 
-    public function notifications_list(){
+    public function notifications_list()
+    {
         return $this->hasMany('\App\Models\NotificationList');
     }
 }

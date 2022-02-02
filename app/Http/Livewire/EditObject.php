@@ -28,11 +28,12 @@ class EditObject extends Component
 
     public $workTimeValue;
 
-    public function mount($id){
+    public function mount($id)
+    {
         $this->object_id = $id;
         $this->object = ObjectModel::where('id', $this->object_id)
-                            ->where('user_id', Auth::id())->first();
-        if($this->object == null){
+            ->where('user_id', Auth::id())->first();
+        if ($this->object == null) {
             return redirect()->route('home');
         }
         $this->object_name = $this->object->name;
@@ -41,27 +42,27 @@ class EditObject extends Component
         $this->allDetailsType = ObjectDetailType::orderBy('name')->get();
 
         $this->addDetails = array_values(Detail::where('detail_ownerable_type', get_class($this->object))
-                ->where('detail_ownerable_id', $this->object_id)
-                ->whereNull('own_name')->get()->toArray());
-        
+            ->where('detail_ownerable_id', $this->object_id)
+            ->whereNull('own_name')->get()->toArray());
+
         $this->addOwnDetails = array_values(Detail::where('detail_ownerable_type', get_class($this->object))
-                ->where('detail_ownerable_id', $this->object_id)
-                ->whereNotNull('own_name')->get()->toArray());
-        //dd($this->addDetails, $this->addOwnDetails);
-
+            ->where('detail_ownerable_id', $this->object_id)
+            ->whereNotNull('own_name')->get()->toArray());
     }
-    
-    public function updatedSelectedObjectType(){
-        if($this->selectedObjectType == 1){
+
+    public function updatedSelectedObjectType()
+    {
+        if ($this->selectedObjectType == 1) {
             $this->selectedWorkTimeUnit = 2;
-        }elseif($this->selectedObjectType == 2){
+        } elseif ($this->selectedObjectType == 2) {
             $this->selectedWorkTimeUnit = 1;
-        }elseif($this->selectedObjectType == 3){
+        } elseif ($this->selectedObjectType == 3) {
             $this->selectedWorkTimeUnit = 3;
-        }        
+        }
     }
 
-    public function updatedSelectedWorkTimeUnit($value){
+    public function updatedSelectedWorkTimeUnit($value)
+    {
         $this->selectedWorkTimeUnit = $value;
     }
 
@@ -92,7 +93,8 @@ class EditObject extends Component
         'selectedWorkTimeUnit' => 'required',
     ];
 
-    public function updated($object_name){
+    public function updated($object_name)
+    {
         $this->validateOnly($object_name);
     }
 
@@ -106,24 +108,25 @@ class EditObject extends Component
         ];
     }
 
-    public function saveAll(){
+    public function saveAll()
+    {
         $this->validate();
-        
-        $obiekt = ObjectModel::find($this->object_id);            
+
+        $obiekt = ObjectModel::find($this->object_id);
         DB::beginTransaction();
-        try{
+        try {
             $obiekt->name = ucfirst(trim($this->object_name));
             $obiekt->work_time_unit_id = $this->selectedWorkTimeUnit;
             $obiekt->save();
 
             $detailToDelete = Detail::where('detail_ownerable_type', get_class($this->object))
-                        ->where('detail_ownerable_id', $this->object_id)            
-                        ->delete();
+                ->where('detail_ownerable_id', $this->object_id)
+                ->delete();
 
             $OBT = new ObjectDetailType;
 
-            foreach($this->addDetails as $detail){
-                if($detail['detail_typeable_id'] != null && $detail['value'] != null){
+            foreach ($this->addDetails as $detail) {
+                if ($detail['detail_typeable_id'] != null && $detail['value'] != null) {
                     $new_detail = new Detail;
                     $new_detail->detail_ownerable_type = get_class($obiekt);
                     $new_detail->detail_ownerable_id = $obiekt->id;
@@ -131,12 +134,12 @@ class EditObject extends Component
                     $new_detail->detail_typeable_id = trim($detail['detail_typeable_id']);
                     $new_detail->value = $detail['value'];
                     $new_detail->save();
-                }            
+                }
             }
 
-            if($this->addOwnDetails != null){
-                foreach($this->addOwnDetails as $detail){
-                    if($detail['own_name'] != null && $detail['value'] != null){
+            if ($this->addOwnDetails != null) {
+                foreach ($this->addOwnDetails as $detail) {
+                    if ($detail['own_name'] != null && $detail['value'] != null) {
                         $new_detail = new Detail;
                         $new_detail->detail_ownerable_type = get_class($obiekt);
                         $new_detail->detail_ownerable_id = $obiekt->id;
@@ -147,12 +150,12 @@ class EditObject extends Component
                 }
             }
             DB::commit();
-        }catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             DB::rollback();
         }
 
-        switch($this->selectedObjectType){
-            case '1': 
+        switch ($this->selectedObjectType) {
+            case '1':
                 return redirect()->route('vehicles.show', ['id' => $obiekt->id, 'openSection' => '0']);
                 break;
             case '2':
@@ -165,7 +168,6 @@ class EditObject extends Component
                 return redirect()->route('');
                 break;
         }
-
     }
 
 

@@ -19,11 +19,11 @@ class EmailAdress extends Model
         'user_id',
         'parts_notifications',
         'overviews_notifications',
-        'insurances_notifications'  
+        'insurances_notifications'
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('\App\Models\User');
     }
-
 }

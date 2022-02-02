@@ -16,7 +16,7 @@ class StoreObjectRequest extends FormRequest
         return [
             'object_name' => 'required|string|min:5|max:100',
             'object_unit' => 'required',
-          ];
+        ];
     }
 
     public function messages()

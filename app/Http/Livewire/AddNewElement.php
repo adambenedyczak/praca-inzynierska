@@ -39,23 +39,25 @@ class AddNewElement extends Component
 
     public $tomorrow;
 
-    public function mount(){
+    public function mount()
+    {
         $this->elementCategoryList = ElementCategory::all();
         $this->object = ObjectModel::where('id', $this->object_id)->first();
         $this->addOwnDetails = [
             ['own_name' => '', 'value' => '']
         ];
         $this->tomorrow = Carbon::now()->addDays(1)->format('d-m-Y');
-        if(WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first()){
+        if (WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first()) {
             $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at')->first();
             $this->workTVV = $this->workTimeValue->value;
         }
     }
 
-    public function updatedSelectedType($value){
+    public function updatedSelectedType($value)
+    {
         $this->selectedType = $value;
     }
-    
+
     public function addOwnDetail()
     {
         $this->addOwnDetails[] = ['own_name' => '', 'value' => ''];
@@ -67,26 +69,28 @@ class AddNewElement extends Component
         $this->addOwnDetails = array_values($this->addOwnDetails);
     }
 
-    public function updatedSelectedCategory(){
+    public function updatedSelectedCategory()
+    {
         $this->selectedType = "";
     }
 
     public function render()
     {
         info($this->addOwnDetails);
-        if($this->selectedCategory == 1){
+        if ($this->selectedCategory == 1) {
             $this->allType = PartType::orderBy('name')->get();
-        }elseif($this->selectedCategory == 2){
+        } elseif ($this->selectedCategory == 2) {
             $this->allType = OverviewType::orderBy('name')->get();
-        }elseif($this->selectedCategory == 3){
+        } elseif ($this->selectedCategory == 3) {
             $this->allType = InsuranceType::orderBy('name')->get();
         }
 
         return view('livewire.add-new-element');
     }
 
-    public function saveAll(){
-        if($this->addEvent){
+    public function saveAll()
+    {
+        if ($this->addEvent) {
             $this->validate(
                 [
                     'element_name' => 'required|string|min:2|max:100',
@@ -104,7 +108,7 @@ class AddNewElement extends Component
                     'nextWorkTimeValue.gt' => 'Przebieg musi być większy niż aktualny'
                 ]
             );
-        }else{
+        } else {
             $this->validate(
                 [
                     'element_name' => 'required|string|min:2|max:100',
@@ -123,15 +127,15 @@ class AddNewElement extends Component
         $user = Auth::user()->id;
 
         DB::beginTransaction();
-        try{
+        try {
             $element = new Element;
             $element->name = ucfirst(trim($this->element_name));
             $element->object_model_id = $this->object_id;
-            if($this->selectedCategory == 1){
+            if ($this->selectedCategory == 1) {
                 $ELT = new PartType;
-            }elseif($this->selectedCategory == 2){
+            } elseif ($this->selectedCategory == 2) {
                 $ELT = new OverviewType;
-            }elseif($this->selectedCategory == 3){
+            } elseif ($this->selectedCategory == 3) {
                 $ELT = new InsuranceType;
             }
             $element->elements_category_id = $this->selectedCategory;
@@ -140,9 +144,9 @@ class AddNewElement extends Component
             $element->save();
 
 
-            if($this->addOwnDetails != null){
-                foreach($this->addOwnDetails as $detail){
-                    if($detail['own_name'] != null && $detail['value'] != null){
+            if ($this->addOwnDetails != null) {
+                foreach ($this->addOwnDetails as $detail) {
+                    if ($detail['own_name'] != null && $detail['value'] != null) {
                         $new_detail = new Detail;
                         $new_detail->detail_ownerable_type = get_class($element);
                         $new_detail->detail_ownerable_id = $element->id;
@@ -152,20 +156,20 @@ class AddNewElement extends Component
                     }
                 }
             }
-            
-            if($this->addEvent){
+
+            if ($this->addEvent) {
                 $event = new Event;
                 $event->element_id = $element->id;
                 $event->events_type_id = 2;
                 $event->expired_date = $this->nextDate;
-                if($this->nextWorkTimeValue != null){
+                if ($this->nextWorkTimeValue != null) {
                     $event->work_time_value = $this->nextWorkTimeValue;
                 }
                 $event->save();
             }
 
             DB::commit();
-        }catch (\Exception $ex) {
+        } catch (\Exception $ex) {
             DB::rollback();
         }
         $this->element_name = '';
@@ -176,8 +180,8 @@ class AddNewElement extends Component
 
         session()->flash('message', 'Element został dodany!');
 
-        switch($this->object->object_type_id){
-            case '1': 
+        switch ($this->object->object_type_id) {
+            case '1':
                 return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '2':
@@ -192,9 +196,10 @@ class AddNewElement extends Component
         }
     }
 
-    public function cancelAdd(){
-        switch($this->object->object_type_id){
-            case '1': 
+    public function cancelAdd()
+    {
+        switch ($this->object->object_type_id) {
+            case '1':
                 return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                 break;
             case '2':
@@ -209,7 +214,8 @@ class AddNewElement extends Component
         }
     }
 
-    public function switchShow(){
+    public function switchShow()
+    {
         $this->ifShow = true;
     }
 }

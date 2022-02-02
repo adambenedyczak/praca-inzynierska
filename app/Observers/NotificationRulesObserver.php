@@ -10,30 +10,30 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationRulesObserver
 {
-    public function updated(NotificationRules $event){
+    public function updated(NotificationRules $event)
+    {
         $changes = $event->getChanges();
-        if(array_key_exists('parts_notifications', $changes)){
+        if (array_key_exists('parts_notifications', $changes)) {
             $newPartNotificationTime = $changes['parts_notifications'];
-        }else{
+        } else {
             $newPartNotificationTime = null;
         }
-        if(array_key_exists('overviews_notifications', $changes)){
+        if (array_key_exists('overviews_notifications', $changes)) {
             $newOverviewNotificationTime = $changes['overviews_notifications'];
-        }else{
+        } else {
             $newOverviewNotificationTime = null;
         }
-        if(array_key_exists('insurances_notifications', $changes)){
+        if (array_key_exists('insurances_notifications', $changes)) {
             $newInsuranceNotificationTime = $changes['insurances_notifications'];
-        }else{
+        } else {
             $newInsuranceNotificationTime = null;
         }
 
         $notifications = Notification::where('user_id', Auth::id())
-                        ->get()
-                        ->groupBy('elements_category_id');
-        //dd($notifications);
-        if($newPartNotificationTime != null && $newPartNotificationTime>=0 && isset($notifications[1])){            
-            foreach($notifications[1] as $notification){
+            ->get()
+            ->groupBy('elements_category_id');
+        if ($newPartNotificationTime != null && $newPartNotificationTime >= 0 && isset($notifications[1])) {
+            foreach ($notifications[1] as $notification) {
                 $expired_time = Event::where('id', $notification->events_id)->first()->expired_date;
                 $expired_date = Carbon::createFromFormat('Y-m-d', $expired_time);
                 $expired_date2 = Carbon::createFromFormat('Y-m-d', $expired_time);
@@ -45,15 +45,15 @@ class NotificationRulesObserver
                 $notification->next_send = $next_date->format('Y-m-d');
                 $notification->save();
             }
-        }elseif($newPartNotificationTime == -1 && isset($notifications[1])){
-            foreach($notifications[1] as $notification){
+        } elseif ($newPartNotificationTime == -1 && isset($notifications[1])) {
+            foreach ($notifications[1] as $notification) {
                 $notification->send = null;
                 $notification->next_send = null;
                 $notification->save();
             }
         }
-        if($newOverviewNotificationTime != null && $newOverviewNotificationTime>=0 && isset($notifications[2])){            
-            foreach($notifications[2] as $notification){
+        if ($newOverviewNotificationTime != null && $newOverviewNotificationTime >= 0 && isset($notifications[2])) {
+            foreach ($notifications[2] as $notification) {
                 $expired_time = Event::where('id', $notification->events_id)->first()->expired_date;
                 $expired_date = Carbon::createFromFormat('Y-m-d', $expired_time);
                 $expired_date2 = Carbon::createFromFormat('Y-m-d', $expired_time);
@@ -65,15 +65,15 @@ class NotificationRulesObserver
                 $notification->next_send = $next_date->format('Y-m-d');
                 $notification->save();
             }
-        }elseif($newOverviewNotificationTime == -1 && isset($notifications[2])){
-            foreach($notifications[2] as $notification){
+        } elseif ($newOverviewNotificationTime == -1 && isset($notifications[2])) {
+            foreach ($notifications[2] as $notification) {
                 $notification->send = null;
                 $notification->next_send = null;
                 $notification->save();
             }
         }
-        if($newInsuranceNotificationTime != null && $newInsuranceNotificationTime>=0 && isset($notifications[3])){            
-            foreach($notifications[3] as $notification){
+        if ($newInsuranceNotificationTime != null && $newInsuranceNotificationTime >= 0 && isset($notifications[3])) {
+            foreach ($notifications[3] as $notification) {
                 $expired_time = Event::where('id', $notification->events_id)->first()->expired_date;
                 $expired_date = Carbon::createFromFormat('Y-m-d', $expired_time);
                 $expired_date2 = Carbon::createFromFormat('Y-m-d', $expired_time);
@@ -85,8 +85,8 @@ class NotificationRulesObserver
                 $notification->next_send = $next_date->format('Y-m-d');
                 $notification->save();
             }
-        }elseif($newInsuranceNotificationTime == -1 && isset($notifications[3])){
-            foreach($notifications[3] as $notification){
+        } elseif ($newInsuranceNotificationTime == -1 && isset($notifications[3])) {
+            foreach ($notifications[3] as $notification) {
                 $notification->send = null;
                 $notification->next_send = null;
                 $notification->save();

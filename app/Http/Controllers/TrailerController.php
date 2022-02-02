@@ -14,23 +14,23 @@ class TrailerController extends Controller
     public function index()
     {
         $trailers = ObjectModel::with('detail_ownerable')
-                                ->where('user_id', Auth::id())
-                                ->where('object_type_id','2')
-                                ->where('archival', false)
-                                ->orderBy('name', 'ASC')
-                                ->get();
+            ->where('user_id', Auth::id())
+            ->where('object_type_id', '2')
+            ->where('archival', false)
+            ->orderBy('name', 'ASC')
+            ->get();
         return view('trailers.index', compact('trailers'));
     }
 
     public function show($id, $openSection)
     {
         $trailer = ObjectModel::with('detail_ownerable')->where('id', $id)->first();
-        if($trailer == null){
+        if ($trailer == null) {
             return back();
-        }else if(Auth::id() != $trailer->user_id){
+        } else if (Auth::id() != $trailer->user_id) {
             return back();
-        }else{
+        } else {
             return view('trailers.show', compact('trailer', 'openSection'));
-        }        
+        }
     }
 }

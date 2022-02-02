@@ -14,10 +14,11 @@ class EventType extends Model
     protected $table = 'events_type';
 
     protected $fillable = [
-        'name' 
+        'name'
     ];
 
-    public function events(){
+    public function events()
+    {
         return $this->hasMany('\App\Models\Event');
     }
 }

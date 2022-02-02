@@ -20,14 +20,16 @@ class Detail extends Model
         'detail_typeable_type',
         'detail_typeable_id',
         'own_name',
-        'value'  
+        'value'
     ];
 
-    public function detail_ownerable(){
+    public function detail_ownerable()
+    {
         return $this->morphTo();
     }
 
-    public function detail_typeable(){
+    public function detail_typeable()
+    {
         return $this->morphTo();
     }
 }

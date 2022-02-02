@@ -37,7 +37,8 @@ class DisplayObjectFull extends Component
     public $listeners = ['refreshElements' => 'render'];
 
 
-    public function mount(){
+    public function mount()
+    {
         $this->object = ObjectModel::with('detail_ownerable', 'work_time_unit')->where('id', $this->object_id)->first();
         $this->fav = $this->object->favourite;
         $this->isArchival = $this->object->archival;
@@ -46,7 +47,8 @@ class DisplayObjectFull extends Component
         $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
     }
 
-    public function toggleFav(){
+    public function toggleFav()
+    {
         $this->fav = !$this->fav;
         $object = ObjectModel::find($this->object_id);
         $object->favourite = $this->fav;
@@ -55,38 +57,39 @@ class DisplayObjectFull extends Component
 
 
 
-    public function confirmDelete(){
+    public function confirmDelete()
+    {
         $events = Event::with('element.object_model')
-                ->where('events_type_id', 2)
-                ->whereHas('element.object_model', function ($query) {
-                    $query->where('id', $this->object_id);
-                })->get();
-        foreach($events as $event){
+            ->where('events_type_id', 2)
+            ->whereHas('element.object_model', function ($query) {
+                $query->where('id', $this->object_id);
+            })->get();
+        foreach ($events as $event) {
             Notification::where('events_id', $event->id)->forceDelete();
         }
 
         $events = Event::with('element.object_model')
-                ->whereHas('element.object_model', function ($query) {
-                    $query->where('id', $this->object_id);
-                })->get();
-        foreach($events as $event){
+            ->whereHas('element.object_model', function ($query) {
+                $query->where('id', $this->object_id);
+            })->get();
+        foreach ($events as $event) {
             $event->forceDelete();
         }
 
         $elements = Element::where('object_model_id', $this->object_id)->get();
 
-        foreach($elements as $element){
+        foreach ($elements as $element) {
             Detail::where('elements_typeable_type', $element->elements_typeable_type)
                 ->where('elements_typeable_id', $element->elements_typeable_id)->delete();
         }
 
         Detail::where('detail_ownerable_type', 'App\Models\ObjectModel')
-                ->where('detail_ownerable_id', $this->object_id)->delete();
+            ->where('detail_ownerable_id', $this->object_id)->delete();
 
         ObjectModel::findOrFail($this->object_id)->delete();
 
-        switch($this->objectType){
-            case '1': 
+        switch ($this->objectType) {
+            case '1':
                 session()->flash('message', 'Pojazd został usunięty');
                 return redirect()->route('vehicles.index');
                 break;
@@ -104,14 +107,15 @@ class DisplayObjectFull extends Component
         }
     }
 
-    public function confirmSetArchival(){        
-        if($this->isArchival == false){
+    public function confirmSetArchival()
+    {
+        if ($this->isArchival == false) {
             $events = Event::with('element.object_model')
-                    ->where('events_type_id', 2)
-                    ->whereHas('element.object_model', function ($query) {
-                        $query->where('id', $this->object_id);
-                    })->get();
-            foreach($events as $event){
+                ->where('events_type_id', 2)
+                ->whereHas('element.object_model', function ($query) {
+                    $query->where('id', $this->object_id);
+                })->get();
+            foreach ($events as $event) {
                 Notification::where('events_id', $event->id)->forceDelete();
                 $event->forceDelete();
             }
@@ -120,8 +124,8 @@ class DisplayObjectFull extends Component
             $this->object->favourite = false;
             $this->object->save();
 
-            switch($this->objectType){
-                case '1': 
+            switch ($this->objectType) {
+                case '1':
                     session()->flash('message', 'Pojazd został przeniesiony do archiwum');
                     return redirect()->route('vehicles.index');
                     break;
@@ -137,12 +141,12 @@ class DisplayObjectFull extends Component
                     return redirect()->route('');
                     break;
             }
-        }else{
+        } else {
             $this->object->archival = false;
             $this->object->save();
 
-            switch($this->objectType){
-                case '1': 
+            switch ($this->objectType) {
+                case '1':
                     session()->flash('message', 'Pojazd został przywrócony');
                     return redirect()->route('vehicles.show', ['id' => $this->object_id, 'openSection' => '0']);
                     break;
@@ -166,13 +170,13 @@ class DisplayObjectFull extends Component
     {
         $this->workTimeValue = WorkTimeHistory::where('object_model_id', $this->object_id)->orderBy('created_at', 'desc')->first();
         $this->details = Detail::where('detail_ownerable_type', get_class($this->object))
-                    ->where('detail_ownerable_id', $this->object_id)
-                    ->whereNull('own_name')
-                    ->orderBy('detail_typeable_id')->get();
+            ->where('detail_ownerable_id', $this->object_id)
+            ->whereNull('own_name')
+            ->orderBy('detail_typeable_id')->get();
 
         $this->ownDetails = Detail::where('detail_ownerable_type', get_class($this->object))
-                    ->where('detail_ownerable_id', $this->object_id)
-                    ->whereNotNull('own_name')->get();
+            ->where('detail_ownerable_id', $this->object_id)
+            ->whereNotNull('own_name')->get();
 
         return view('livewire.display-object-full');
     }

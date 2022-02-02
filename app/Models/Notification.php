@@ -22,18 +22,21 @@ class Notification extends Model
         'user_id',
         'send',
         'next_send',
-        'work_time_value'  
+        'work_time_value'
     ];
 
-    public function element_category(){
+    public function element_category()
+    {
         return $this->belongsTo(ElementCategory::class);
     }
 
-    public function event(){
+    public function event()
+    {
         return $this->belongsTo(Event::class, 'events_id');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

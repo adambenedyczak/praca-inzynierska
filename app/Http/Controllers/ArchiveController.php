@@ -11,10 +11,10 @@ class ArchiveController extends Controller
     public function index()
     {
         $objects = ObjectModel::with('detail_ownerable')
-                                ->where('user_id', Auth::id())
-                                ->where('archival', true)
-                                ->orderBy('name', 'ASC')
-                                ->get();
+            ->where('user_id', Auth::id())
+            ->where('archival', true)
+            ->orderBy('name', 'ASC')
+            ->get();
         return view('archive.index', compact('objects'));
     }
 }
