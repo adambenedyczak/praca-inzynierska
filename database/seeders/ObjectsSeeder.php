@@ -21,7 +21,8 @@ class ObjectsSeeder extends Seeder
             'name' => 'Ford Fusion',
             'object_type_id' => '1',
             'user_id' => '1',
-            'work_time_unit_id' => '1'
+            'work_time_unit_id' => '1',
+            'favourite' => '1'
         ]);
 
         DB::table('objects_model')->insert([
