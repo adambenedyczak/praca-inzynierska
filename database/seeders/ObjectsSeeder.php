@@ -30,19 +30,5 @@ class ObjectsSeeder extends Seeder
             'user_id' => '1',
             'work_time_unit_id' => '2'
         ]);
-
-        DB::table('objects_model')->insert([
-            'name' => 'Fogo FDG 80',
-            'object_type_id' => '3',
-            'user_id' => '1',
-            'work_time_unit_id' => '2'
-        ]);
-
-        DB::table('objects_model')->insert([
-            'name' => 'Rumpumpa',
-            'object_type_id' => '2',
-            'user_id' => '1',
-            'work_time_unit_id' => '0'
-        ]);
     }
 }

@@ -27,12 +27,12 @@ class UsersSeeder extends Seeder
 
         $user->assignRole('admin');
 
-        $email = EmailAdress::create([
+        EmailAdress::create([
             'email' => 'admin@admin',
             'user_id' => 1,
         ]);
 
-        $notification_rules = NotificationRules::create([
+        NotificationRules::create([
             'user_id' => 1,
         ]);
     }
