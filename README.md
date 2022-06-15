@@ -15,7 +15,7 @@ Aby zainstalować projekt przekopiuj pliki do dowolnego folderu.
 Następnie uruchom terminal w tym folerze i wykonaj następujące komendy:
 
 ```
-composer install
+composer install / composer install --ignore-platform-reqs
 npm install
 npm run dev
 php artisan key:generate
