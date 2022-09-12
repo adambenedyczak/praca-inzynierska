@@ -1,7 +1,13 @@
-## Informacje podstawowe
+# Aplikacja wspomagająca terminowe zarządzanie obsługą floty pojazdów i maszyn
 
-Aplikacja została wykonana przy użyciu frameworka Laravel.
-Do prawidłowego działania wymagana jest baza danych MySQL.
+## Opis
+Aplikacja pozwala na przechowywanie informacji o każdej jednostce we flocie (pojazdów/maszyn). 
+Do głównych informacji (elementów) należą ubezpieczenia, przeglądy oraz dane o częściach (pozdespołach).
+Każdy element może być rozszerzony o wiele szczegółów oraz zdarzenia określające terminy - daty płatnośc, ważności oraz terminy wymian.
+Najważniejszą funkcjonalnością jest system powiadomień o zbliżających się zdarzeniach, dzięki któremu użytkownik nie pominie żadnej ważnej daty.
+
+## Informacje techniczne
+Aplikacja została wykonana przy użyciu frameworka Laravel oraz bazy danych MySQL.
 
 ## Przygotowanie bazy danych
 
